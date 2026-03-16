@@ -103,9 +103,8 @@ fallback_declared:
 
 These features are planned for future versions:
 
-❌ **Runtime testing** - Doesn't execute the agent
-❌ **Sample validation** - Doesn't test actual outputs
-❌ **Behavior verification** - Doesn't prove safeguards work
+❌ **Runtime behavior testing** - Doesn't execute the agent
+❌ **Output validation** - Doesn't test actual outputs or model behavior
 ❌ **Formal verification** - Doesn't mathematically verify behavior
 ❌ **Runtime monitoring** - Doesn't continuously verify at runtime
 

@@ -2,21 +2,26 @@
 
 ## What You Have
 
-A foundational deployment readiness gate for AI agents.
+A pre-deployment governance gate for request contracts and operational readiness.
 
-**v0.1.0 includes:**
-✅ INPUT_CONTRACT check (schema + sample validation)
-✅ FALLBACK_DECLARED check (governance enforcement)
-✅ CLI tool (init + run commands)
-✅ JSON and text output
-✅ Exit codes for CI/CD
-✅ Complete documentation
+**v0.1.0 - What It Does:**
+✅ INPUT_CONTRACT check: Validates request schema and tests valid/invalid samples
+✅ FALLBACK_DECLARED check: Enforces governance declarations (kill switch, fallback, ownership, runbook)
+✅ CLI tool: initialize projects, run governance checks
+✅ JSON and text output formats
+✅ Exit codes for CI/CD integration (0=PASS, 10=WARN, 1=FAIL)
+✅ Comprehensive documentation and examples
 
-**v0.1.0 does NOT include:**
-❌ Runtime agent execution
-❌ Sample output validation
-❌ Formal verification
-❌ Runtime monitoring
+**v0.1.0 - What It Does NOT Do:**
+❌ Runtime agent execution or behavior testing
+❌ Validation of actual outputs or model behavior
+❌ Formal verification or mathematical proofs
+❌ Runtime monitoring or continuous governance
+❌ Prevention of specific failure modes (declares governance instead)
+
+**Purpose:**
+Introduces pre-deployment governance controls motivated by documented agent failure modes.
+v0.1 focuses on declaration and validation; deeper behavioral checks planned for v0.2+.
 
 See CHANGELOG.md for complete feature list and roadmap.
 

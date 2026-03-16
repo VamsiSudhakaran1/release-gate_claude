@@ -131,6 +131,8 @@ def run_gate(config_path, env="staging", output_format="json", output_file="read
     results["checks"].append(input_check_result)
     if input_check_result["result"] == "FAIL":
         results["overall"] = "FAIL"
+    elif input_check_result["result"] == "WARN" and results["overall"] != "FAIL":
+        results["overall"] = "WARN"
     results["summary"]["counts"][input_check_result["result"].lower()] += 1
     
     # FALLBACK_DECLARED check
@@ -138,6 +140,8 @@ def run_gate(config_path, env="staging", output_format="json", output_file="read
     results["checks"].append(fallback_check_result)
     if fallback_check_result["result"] == "FAIL":
         results["overall"] = "FAIL"
+    elif fallback_check_result["result"] == "WARN" and results["overall"] != "FAIL":
+        results["overall"] = "WARN"
     results["summary"]["counts"][fallback_check_result["result"].lower()] += 1
     
     # Write report
