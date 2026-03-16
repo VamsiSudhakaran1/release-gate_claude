@@ -1,0 +1,40 @@
+project:
+  name: test-system
+  version: 1.0.0
+  description: AI system deployment gate
+
+gate:
+  policy: default-v0.1
+
+checks:
+  input_contract:
+    enabled: true
+    schema:
+      type: object
+      required:
+        - prompt
+        - duration_sec
+      properties:
+        prompt:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        duration_sec:
+          type: number
+          minimum: 1
+          maximum: 60
+    samples:
+      valid_path: valid_requests.jsonl
+      invalid_path: invalid_requests.jsonl
+
+  fallback_declared:
+    enabled: true
+    kill_switch:
+      type: feature_flag
+      name: disable_test_system
+    fallback:
+      mode: static_placeholder
+    ownership:
+      team: platform-team
+      oncall: oncall-platform
+    runbook_url: https://wiki.internal/runbooks/test-system

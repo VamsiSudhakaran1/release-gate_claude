@@ -1,0 +1,53 @@
+project:
+  name: video-gen-api
+  version: 1.0.0
+  description: Video generation API with autonomous agent
+
+gate:
+  policy: default-v0.1
+
+checks:
+  input_contract:
+    enabled: true
+    schema:
+      type: object
+      required:
+        - prompt
+        - duration_sec
+        - resolution
+      properties:
+        prompt:
+          type: string
+          minLength: 1
+          maxLength: 1000
+          description: What to generate
+        duration_sec:
+          type: number
+          minimum: 1
+          maximum: 60
+          description: Length in seconds
+        resolution:
+          type: string
+          enum:
+            - "480p"
+            - "720p"
+            - "1080p"
+          description: Output resolution
+    samples:
+      valid_path: valid_requests.jsonl
+      invalid_path: invalid_requests.jsonl
+
+  fallback_declared:
+    enabled: true
+    kill_switch:
+      type: feature_flag
+      name: disable_video_generation
+      description: Feature flag to disable video generation
+    fallback:
+      mode: static_placeholder
+      description: Return static placeholder video on failure
+    ownership:
+      team: platform-team
+      oncall: oncall-platform
+      slack_channel: "#platform-incidents"
+    runbook_url: https://wiki.internal/runbooks/video-gen-api
