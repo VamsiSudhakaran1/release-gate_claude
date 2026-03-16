@@ -1,6 +1,6 @@
 # release-gate v0.1.0
 
-<<<<<<< HEAD
+
 **Deployment Readiness Gate for Autonomous AI Agents**
 
 ![License](https://img.shields.io/badge/license-MIT-green)
