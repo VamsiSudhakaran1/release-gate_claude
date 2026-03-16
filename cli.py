@@ -60,7 +60,7 @@ checks:
     config_path = output_path / "release-gate.yaml"
     with open(config_path, 'w') as f:
         f.write(config_content)
-    print(f"✓ Created: {config_path}")
+    print(f"[OK] Created: {config_path}")
     
     valid_content = """{"prompt":"Test prompt 1","duration_sec":5}
 {"prompt":"Test prompt 2","duration_sec":10}
@@ -77,13 +77,13 @@ checks:
     
     with open(valid_path, 'w') as f:
         f.write(valid_content)
-    print(f"✓ Created: {valid_path}")
+    print(f"[OK] Created: {valid_path}")
     
     with open(invalid_path, 'w') as f:
         f.write(invalid_content)
-    print(f"✓ Created: {invalid_path}")
+    print(f"[OK] Created: {invalid_path}")
     
-    print("\n✨ Initialization complete!")
+    print("\n[DONE] Initialization complete!")
 
 
 def run_gate(config_path, env="staging", output_format="json", output_file="readiness_report.json"):
@@ -116,7 +116,7 @@ def run_gate(config_path, env="staging", output_format="json", output_file="read
     # Initialize results
     results = {
         "overall": "PASS",
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now().isoformat() + "Z",
         "environment": env,
         "project": config.get("project", {}),
         "summary": {"counts": {"pass": 0, "warn": 0, "fail": 0}},
