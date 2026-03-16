@@ -108,7 +108,7 @@ These features are planned for future versions:
 ❌ **Formal verification** - Doesn't mathematically verify behavior
 ❌ **Runtime monitoring** - Doesn't continuously verify at runtime
 
-See [CHANGELOG.md](CHANGELOG.md) for complete roadmap.
+See [CHANGELOG.md](docs/CHANGELOG.md) for complete roadmap.
 
 ---
 
