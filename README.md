@@ -369,11 +369,9 @@ Overall Decision: ✓ PASS
 
 ## Documentation
 
-- **[QUICKSTART.md](QUICKSTART.md)** - 5-minute quick start
-- **[EXTENDED_README.md](EXTENDED_README.md)** - Complete guide (8,000+ words)
-- **[CHANGELOG.md](CHANGELOG.md)** - Features and roadmap
-- **[COMPLETE.md](COMPLETE.md)** - Project overview
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute
+- **[Quick Start](docs/QUICKSTART.md)** - 5-minute quick start
+- **[Changelog](docs/CHANGELOG.md)** - Features and roadmap
+
 
 ---
 
