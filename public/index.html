@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Is your agent ready to ship? release-gate enforces governance policies before deployment.">
-    <title>release-gate | Ready to Deploy?</title>
+    <meta name="description" content="release-gate enforces governance policies before AI agent deployment.">
+    <title>release-gate | Governance Before Deployment</title>
     
     <style>
         * {
@@ -344,7 +344,6 @@
             margin: 0 auto;
         }
 
-        /* Agent Selector Tabs */
         .agent-tabs {
             display: flex;
             gap: 1rem;
@@ -378,7 +377,6 @@
             border-color: var(--accent);
         }
 
-        /* Example Card */
         .examples-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -424,7 +422,6 @@
             color: var(--text-light);
         }
 
-        /* Scenario Cards */
         .scenario-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -446,7 +443,7 @@
 
         .scenario-header {
             padding: 1.25rem;
-            background: linear-gradient(135deg, var(--danger), #dc2626);
+            background: linear-gradient(135deg, var(--accent), #1e40af);
             color: white;
         }
 
@@ -533,6 +530,50 @@
             font-size: 1rem;
             font-weight: 700;
             color: var(--success);
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-lighter) 100%);
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.6;
         }
 
         /* ===== COMING SOON SECTION ===== */
@@ -642,7 +683,17 @@
             color: var(--accent-light);
         }
 
-        /* ===== SCROLL ANIMATIONS ===== */
+        .beta-badge {
+            display: inline-block;
+            background: var(--warning);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -690,7 +741,7 @@
         <ul class="nav-links">
             <li><a href="#pipeline">Pipeline</a></li>
             <li><a href="#examples">Examples</a></li>
-            <li><a href="#roadmap">Coming Soon</a></li>
+            <li><a href="#features">Features</a></li>
             <li><a href="https://github.com/VamsiSudhakaran1/release-gate">GitHub</a></li>
         </ul>
     </nav>
@@ -698,8 +749,9 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
+            <div class="beta-badge">v0.2.0 - Active Development</div>
             <h1>Ready to Deploy?<span>release-gate decides.</span></h1>
-            <p class="hero-tagline">Enforce governance policies before your agent ships to production.</p>
+            <p class="hero-tagline">Codified governance before deployment. Enforce policies, generate evidence, control access.</p>
             
             <div class="hero-cta">
                 <a href="https://github.com/VamsiSudhakaran1/release-gate#quick-start" class="btn btn-primary">Get Started (5 min)</a>
@@ -711,8 +763,8 @@
     <!-- Pipeline Section -->
     <section class="pipeline-section" id="pipeline">
         <div class="section-title">
-            <h2>End-to-End Lifecycle</h2>
-            <p>See where release-gate sits in your complete deployment pipeline</p>
+            <h2>The Critical Gate</h2>
+            <p>release-gate sits in the CI/CD pipeline between test and deploy. One clear decision: PASS or FAIL.</p>
         </div>
 
         <div class="pipeline-viz">
@@ -720,32 +772,66 @@
                 <div class="pipeline-step reveal">
                     <div class="pipeline-icon">🛠️</div>
                     <div class="pipeline-label">Step 1</div>
-                    <div class="pipeline-title">You Build</div>
+                    <div class="pipeline-title">Build</div>
                 </div>
 
                 <div class="pipeline-step reveal">
                     <div class="pipeline-icon">✅</div>
                     <div class="pipeline-label">Step 2</div>
-                    <div class="pipeline-title">You Test</div>
+                    <div class="pipeline-title">Test</div>
                 </div>
 
                 <div class="pipeline-step reveal">
                     <div class="pipeline-icon">🚪</div>
-                    <div class="pipeline-label">Step 3 - OUR JOB</div>
-                    <div class="pipeline-title">release-gate Checks</div>
+                    <div class="pipeline-label">Step 3 - HERE</div>
+                    <div class="pipeline-title">release-gate</div>
                 </div>
 
                 <div class="pipeline-step reveal">
                     <div class="pipeline-icon">🚀</div>
                     <div class="pipeline-label">Step 4</div>
-                    <div class="pipeline-title">You Deploy</div>
+                    <div class="pipeline-title">Deploy</div>
                 </div>
 
                 <div class="pipeline-step reveal">
                     <div class="pipeline-icon">📊</div>
                     <div class="pipeline-label">Step 5</div>
-                    <div class="pipeline-title">You Monitor</div>
+                    <div class="pipeline-title">Monitor</div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-title">
+            <h2>What release-gate Enforces</h2>
+            <p>v0.2.0 validates these 4 governance policies before deployment</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">📋</div>
+                <h3>INPUT_CONTRACT</h3>
+                <p>Request schema is well-defined and tested with valid/invalid samples.</p>
+            </div>
+
+            <div class="feature-card reveal">
+                <div class="feature-icon">🛡️</div>
+                <h3>FALLBACK_DECLARED</h3>
+                <p>Kill switch, fallback mode, ownership, and incident runbook are documented.</p>
+            </div>
+
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔐</div>
+                <h3>IDENTITY_BOUNDARY (v0.2)</h3>
+                <p>Authentication is required, rate limits are set, data isolation is defined.</p>
+            </div>
+
+            <div class="feature-card reveal">
+                <div class="feature-icon">💰</div>
+                <h3>ACTION_BUDGET (v0.2)</h3>
+                <p>Token, retry, cost, and concurrency limits are enforced.</p>
             </div>
         </div>
     </section>
@@ -753,40 +839,36 @@
     <!-- Examples Section -->
     <section class="examples-section" id="examples">
         <div class="examples-title">
-            <h2>Real-World Agent Scenarios</h2>
-            <p>See common failures and how release-gate prevents them from happening after deployment</p>
+            <h2>See It In Action</h2>
+            <p>Three agent types. Three deployment scenarios. Same governance gate.</p>
         </div>
 
-        <!-- Agent Tabs -->
         <div class="agent-tabs">
             <button class="agent-tab active" onclick="selectAgent('video')">🎬 Video Generation</button>
             <button class="agent-tab" onclick="selectAgent('audio')">🎵 Audio Processing</button>
             <button class="agent-tab" onclick="selectAgent('llm')">🤖 LLM Assistant</button>
         </div>
 
-        <!-- Examples Container -->
         <div class="examples-container">
-            <!-- VIDEO GENERATION -->
             <div class="example-card active" id="example-video">
                 <div class="example-display">
                     <div class="example-header">
                         <div class="example-icon">🎬</div>
                         <div>
                             <h3>Video Generation API</h3>
-                            <p>Autonomous agent that generates videos from text prompts</p>
+                            <p>Autonomous agent that generates videos from prompts</p>
                         </div>
                     </div>
 
                     <div class="scenario-grid">
-                        <!-- Scenario 1 -->
                         <div class="scenario-card">
                             <div class="scenario-header">
                                 <div class="scenario-title">💥 #1: Self-Destruction</div>
                             </div>
                             <div class="scenario-body">
                                 <div class="threat-box">
-                                    <div class="threat-label">Agents of Chaos Failure</div>
-                                    <div class="threat-description">Agent autonomously deletes critical infrastructure</div>
+                                    <div class="threat-label">Problem</div>
+                                    <div class="threat-description">Agent deletes critical infrastructure</div>
                                 </div>
 
                                 <div class="check-box">release-gate.yaml:
@@ -794,69 +876,67 @@
     operations: read_only</div>
 
                                 <div class="result-box">
-                                    <div class="result-label">Release-gate Output</div>
+                                    <div class="result-label">Decision</div>
                                     <div class="result-text">✓ PASS - Delete operations blocked</div>
                                 </div>
 
                                 <div class="decision-box">
-                                    <div class="decision-label">Decision</div>
-                                    <div class="decision-value">✓ SAFE</div>
+                                    <div class="decision-label">Safe</div>
+                                    <div class="decision-value">✓ YES</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Scenario 2 -->
                         <div class="scenario-card">
                             <div class="scenario-header">
                                 <div class="scenario-title">🔓 #2: Non-Owner Access</div>
                             </div>
                             <div class="scenario-body">
                                 <div class="threat-box">
-                                    <div class="threat-label">Agents of Chaos Failure</div>
-                                    <div class="threat-description">Anyone can execute without verification</div>
+                                    <div class="threat-label">Problem</div>
+                                    <div class="threat-description">Anyone can execute commands</div>
                                 </div>
 
                                 <div class="check-box">release-gate.yaml:
-  input_contract:
+  identity_boundary:
     auth: required
-    rate_limit: 100/hour</div>
+    rate_limit: 100</div>
 
                                 <div class="result-box">
-                                    <div class="result-label">Release-gate Output</div>
-                                    <div class="result-text">✓ PASS - Auth + rate limits enforced</div>
+                                    <div class="result-label">Decision</div>
+                                    <div class="result-text">✓ PASS - Auth + limits enforced</div>
                                 </div>
 
                                 <div class="decision-box">
-                                    <div class="decision-label">Decision</div>
-                                    <div class="decision-value">✓ SAFE</div>
+                                    <div class="decision-label">Safe</div>
+                                    <div class="decision-value">✓ YES</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Scenario 3 -->
                         <div class="scenario-card">
                             <div class="scenario-header">
                                 <div class="scenario-title">🔥 #3: Resource Exhaustion</div>
                             </div>
                             <div class="scenario-body">
                                 <div class="threat-box">
-                                    <div class="threat-label">Agents of Chaos Failure</div>
-                                    <div class="threat-description">Infinite loops consume all CPU/tokens</div>
+                                    <div class="threat-label">Problem</div>
+                                    <div class="threat-description">Infinite loops exhaust resources</div>
                                 </div>
 
                                 <div class="check-box">release-gate.yaml:
-  fallback_declared:
+  action_budget:
     max_retries: 3
     max_daily_cost: 1000</div>
 
                                 <div class="result-box">
-                                    <div class="result-label">Release-gate Output</div>
-                                    <div class="result-text">✓ PASS - Cost/retry limits enforced</div>
+                                    <div class="result-label">Decision</div>
+                                    <div class="result-text">✓ PASS - Budgets enforced</div>
                                 </div>
 
                                 <div class="decision-box">
-                                    <div class="decision-label">Decision</div>
-                                    <div class="decision-value">✓ SAFE</div>
+                                    <div class="decision-label">Safe</div>
+                                    <div class="decision-value">✓ YES</div>
                                 </div>
                             </div>
                         </div>
@@ -864,14 +944,13 @@
                 </div>
             </div>
 
-            <!-- AUDIO PROCESSING -->
             <div class="example-card" id="example-audio">
                 <div class="example-display">
                     <div class="example-header">
                         <div class="example-icon">🎵</div>
                         <div>
                             <h3>Audio Processing Agent</h3>
-                            <p>Transcribes, translates, and analyzes audio files</p>
+                            <p>Transcribes and analyzes audio files</p>
                         </div>
                     </div>
 
@@ -882,23 +961,23 @@
                             </div>
                             <div class="scenario-body">
                                 <div class="threat-box">
-                                    <div class="threat-label">Agents of Chaos Failure</div>
+                                    <div class="threat-label">Problem</div>
                                     <div class="threat-description">Attacker impersonates legitimate user</div>
                                 </div>
 
                                 <div class="check-box">release-gate.yaml:
-  input_contract:
+  identity_boundary:
     identity: verified
     mfa: required</div>
 
                                 <div class="result-box">
-                                    <div class="result-label">Release-gate Output</div>
-                                    <div class="result-text">✓ PASS - MFA + identity verification</div>
+                                    <div class="result-label">Decision</div>
+                                    <div class="result-text">✓ PASS - MFA verified</div>
                                 </div>
 
                                 <div class="decision-box">
-                                    <div class="decision-label">Decision</div>
-                                    <div class="decision-value">✓ SAFE</div>
+                                    <div class="decision-label">Safe</div>
+                                    <div class="decision-value">✓ YES</div>
                                 </div>
                             </div>
                         </div>
@@ -909,23 +988,22 @@
                             </div>
                             <div class="scenario-body">
                                 <div class="threat-box">
-                                    <div class="threat-label">Agents of Chaos Failure</div>
+                                    <div class="threat-label">Problem</div>
                                     <div class="threat-description">Agent calls APIs that don't exist</div>
                                 </div>
 
                                 <div class="check-box">release-gate.yaml:
   fallback_declared:
-    api_validation: strict
     timeout_per_call: 30s</div>
 
                                 <div class="result-box">
-                                    <div class="result-label">Release-gate Output</div>
-                                    <div class="result-text">✓ PASS - API validation + timeout enforced</div>
+                                    <div class="result-label">Decision</div>
+                                    <div class="result-text">✓ PASS - Timeout enforced</div>
                                 </div>
 
                                 <div class="decision-box">
-                                    <div class="decision-label">Decision</div>
-                                    <div class="decision-value">✓ SAFE</div>
+                                    <div class="decision-label">Safe</div>
+                                    <div class="decision-value">✓ YES</div>
                                 </div>
                             </div>
                         </div>
@@ -936,23 +1014,22 @@
                             </div>
                             <div class="scenario-body">
                                 <div class="threat-box">
-                                    <div class="threat-label">Agents of Chaos Failure</div>
+                                    <div class="threat-label">Problem</div>
                                     <div class="threat-description">Agent tricked into harmful behavior</div>
                                 </div>
 
                                 <div class="check-box">release-gate.yaml:
   input_contract:
-    input_sanitization: true
-    prompt_validation: strict</div>
+    validation: strict</div>
 
                                 <div class="result-box">
-                                    <div class="result-label">Release-gate Output</div>
-                                    <div class="result-text">✓ PASS - Input validation enforced</div>
+                                    <div class="result-label">Decision</div>
+                                    <div class="result-text">✓ PASS - Input validation on</div>
                                 </div>
 
                                 <div class="decision-box">
-                                    <div class="decision-label">Decision</div>
-                                    <div class="decision-value">✓ SAFE</div>
+                                    <div class="decision-label">Safe</div>
+                                    <div class="decision-value">✓ YES</div>
                                 </div>
                             </div>
                         </div>
@@ -960,7 +1037,6 @@
                 </div>
             </div>
 
-            <!-- LLM ASSISTANT -->
             <div class="example-card" id="example-llm">
                 <div class="example-display">
                     <div class="example-header">
@@ -978,23 +1054,23 @@
                             </div>
                             <div class="scenario-body">
                                 <div class="threat-box">
-                                    <div class="threat-label">Agents of Chaos Failure</div>
+                                    <div class="threat-label">Problem</div>
                                     <div class="threat-description">Sensitive info exposed or exfiltrated</div>
                                 </div>
 
                                 <div class="check-box">release-gate.yaml:
   fallback_declared:
     data_egress: restricted
-    encryption: end-to-end</div>
+    encryption: e2e</div>
 
                                 <div class="result-box">
-                                    <div class="result-label">Release-gate Output</div>
-                                    <div class="result-text">✓ PASS - Data egress + encryption verified</div>
+                                    <div class="result-label">Decision</div>
+                                    <div class="result-text">✓ PASS - Data restrictions on</div>
                                 </div>
 
                                 <div class="decision-box">
-                                    <div class="decision-label">Decision</div>
-                                    <div class="decision-value">✓ SAFE</div>
+                                    <div class="decision-label">Safe</div>
+                                    <div class="decision-value">✓ YES</div>
                                 </div>
                             </div>
                         </div>
@@ -1005,23 +1081,23 @@
                             </div>
                             <div class="scenario-body">
                                 <div class="threat-box">
-                                    <div class="threat-label">Agents of Chaos Failure</div>
+                                    <div class="threat-label">Problem</div>
                                     <div class="threat-description">System becomes slow and unresponsive</div>
                                 </div>
 
                                 <div class="check-box">release-gate.yaml:
   fallback_declared:
     max_latency: 5s
-    circuit_breaker: enabled</div>
+    circuit_breaker: on</div>
 
                                 <div class="result-box">
-                                    <div class="result-label">Release-gate Output</div>
-                                    <div class="result-text">✓ PASS - Latency + circuit breaker enforced</div>
+                                    <div class="result-label">Decision</div>
+                                    <div class="result-text">✓ PASS - Latency monitored</div>
                                 </div>
 
                                 <div class="decision-box">
-                                    <div class="decision-label">Decision</div>
-                                    <div class="decision-value">✓ SAFE</div>
+                                    <div class="decision-label">Safe</div>
+                                    <div class="decision-value">✓ YES</div>
                                 </div>
                             </div>
                         </div>
@@ -1032,23 +1108,23 @@
                             </div>
                             <div class="scenario-body">
                                 <div class="threat-box">
-                                    <div class="threat-label">Agents of Chaos Failure</div>
-                                    <div class="threat-description">OOM kills process causing outage</div>
+                                    <div class="threat-label">Problem</div>
+                                    <div class="threat-description">OOM kills process, outage</div>
                                 </div>
 
                                 <div class="check-box">release-gate.yaml:
-  fallback_declared:
+  action_budget:
     max_memory: 2GB
     auto_shutdown: true</div>
 
                                 <div class="result-box">
-                                    <div class="result-label">Release-gate Output</div>
-                                    <div class="result-text">✓ PASS - Memory limit + auto-shutdown</div>
+                                    <div class="result-label">Decision</div>
+                                    <div class="result-text">✓ PASS - Memory limits set</div>
                                 </div>
 
                                 <div class="decision-box">
-                                    <div class="decision-label">Decision</div>
-                                    <div class="decision-value">✓ SAFE</div>
+                                    <div class="decision-label">Safe</div>
+                                    <div class="decision-value">✓ YES</div>
                                 </div>
                             </div>
                         </div>
@@ -1061,40 +1137,40 @@
     <!-- Coming Soon Section -->
     <section class="coming-soon-section" id="roadmap">
         <div class="coming-soon-title">
-            <h2>What's Coming</h2>
-            <p>Release-gate is evolving. Here's what we're building next.</p>
+            <h2>The Roadmap</h2>
+            <p>We're building the governance control plane for AI agents. Here's what's coming.</p>
         </div>
 
         <div class="roadmap-grid">
             <div class="roadmap-item">
-                <div class="roadmap-version">v0.2 - Q2 2026</div>
-                <h3>More Checks</h3>
+                <div class="roadmap-version">v0.2 - Now</div>
+                <h3>Core Checks</h3>
                 <ul class="roadmap-features">
-                    <li>Identity & Access Control</li>
-                    <li>Resource Budgets</li>
-                    <li>Data Access Policies</li>
-                    <li>Approval Workflows</li>
+                    <li>INPUT_CONTRACT validation</li>
+                    <li>FALLBACK_DECLARED verification</li>
+                    <li>IDENTITY_BOUNDARY enforcement</li>
+                    <li>ACTION_BUDGET controls</li>
                 </ul>
             </div>
 
             <div class="roadmap-item">
-                <div class="roadmap-version">v0.3 - Q3 2026</div>
-                <h3>Dashboard</h3>
+                <div class="roadmap-version">v0.3 - Q2 2026</div>
+                <h3>Approvals & Monitoring</h3>
                 <ul class="roadmap-features">
-                    <li>Web UI for governance</li>
-                    <li>Real-time monitoring</li>
-                    <li>Compliance dashboards</li>
+                    <li>Approval workflows</li>
+                    <li>Dashboard UI</li>
                     <li>Audit reports</li>
+                    <li>Compliance evidence</li>
                 </ul>
             </div>
 
             <div class="roadmap-item">
                 <div class="roadmap-version">v1.0 - Q4 2026</div>
-                <h3>Enterprise</h3>
+                <h3>Runtime Enforcement</h3>
                 <ul class="roadmap-features">
-                    <li>Runtime enforcement</li>
+                    <li>Runtime policy enforcement</li>
                     <li>Multi-tenant support</li>
-                    <li>Advanced compliance</li>
+                    <li>Enterprise integrations</li>
                     <li>Custom policies</li>
                 </ul>
             </div>
@@ -1111,30 +1187,23 @@
         </div>
         <div>
             <p>release-gate | Governance Before Deployment</p>
-            <p style="font-size: 0.85rem; margin-top: 0.5rem;">MIT License | Open Source | Community-Driven</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">MIT License | Open Source | v0.2.0-active-development</p>
         </div>
     </footer>
 
     <script>
         function selectAgent(agent) {
-            // Hide all example cards
             document.querySelectorAll('.example-card').forEach(card => {
                 card.classList.remove('active');
             });
-
-            // Remove active from all tabs
             document.querySelectorAll('.agent-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-
-            // Show selected example
             document.getElementById('example-' + agent).classList.add('active');
             event.target.classList.add('active');
         }
 
-        // Scroll animations
         const revealElements = document.querySelectorAll('.reveal');
-
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1153,7 +1222,6 @@
             observer.observe(element);
         });
 
-        // Smooth scroll for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
