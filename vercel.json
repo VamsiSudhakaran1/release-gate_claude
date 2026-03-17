@@ -1,4 +1,4 @@
 {
-  "public": "public",
-  "buildCommand": "echo 'Website ready'"
+  "buildCommand": "echo 'Website ready'",
+  "outputDirectory": "public"
 }
