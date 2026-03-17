@@ -320,28 +320,195 @@
             margin-top: 0.5rem;
         }
 
-        /* ===== EXAMPLES SECTION ===== */
-        .examples-section {
+        /* ===== FEATURES OVERVIEW SECTION ===== */
+        .features-overview-section {
             padding: 6rem 2rem;
             background: var(--bg);
         }
 
-        .examples-title {
-            text-align: center;
-            margin-bottom: 3rem;
+        .features-overview-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
         }
 
-        .examples-title h2 {
-            font-size: 3rem;
-            color: var(--primary);
+        .feature-overview-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            border: 2px solid var(--border);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-overview-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+            transform: translateY(-8px);
+        }
+
+        .feature-overview-icon {
+            font-size: 3.5rem;
             margin-bottom: 1rem;
         }
 
-        .examples-title p {
-            font-size: 1.1rem;
+        .feature-overview-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-overview-card p {
+            font-size: 0.9rem;
             color: var(--text-light);
-            max-width: 700px;
+        }
+
+        .feature-overview-card.new-badge::after {
+            content: 'v0.2';
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.75rem;
+        }
+
+        /* ===== DETAILED FEATURES SECTION ===== */
+        .features-detailed-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-lighter) 100%);
+        }
+
+        .features-detailed-grid {
+            max-width: 1400px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-detailed-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .feature-detailed-card:hover {
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .feature-card-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .feature-card-header-icon {
+            font-size: 2.5rem;
+        }
+
+        .feature-card-header h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-card-header p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .feature-card-body {
+            padding: 1.5rem;
+        }
+
+        .feature-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-section-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent);
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+        }
+
+        .how-its-used {
+            background: rgba(59, 130, 246, 0.08);
+            border-left: 3px solid var(--accent);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: var(--secondary);
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow-x: auto;
+        }
+
+        .real-uses {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .use-item {
+            font-size: 0.9rem;
+            color: var(--text);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .use-item::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .impact-box {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(239, 68, 68, 0.04));
+            border-left: 3px solid var(--danger);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .impact-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--danger);
+            margin-bottom: 0.25rem;
+        }
+
+        .impact-description {
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        /* ===== EXAMPLES SECTION ===== */
+        .examples-section {
+            padding: 6rem 2rem;
+            background: var(--bg);
         }
 
         .agent-tabs {
@@ -532,50 +699,6 @@
             color: var(--success);
         }
 
-        /* ===== FEATURES SECTION ===== */
-        .features-section {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-lighter) 100%);
-        }
-
-        .features-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transform: translateY(-4px);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.75rem;
-            color: var(--primary);
-        }
-
-        .feature-card p {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-
         /* ===== COMING SOON SECTION ===== */
         .coming-soon-section {
             padding: 6rem 2rem;
@@ -731,6 +854,15 @@
             .agent-tabs {
                 flex-direction: column;
             }
+
+            .feature-card-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .features-detailed-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -740,8 +872,8 @@
         <div class="nav-brand">release<code>-gate</code></div>
         <ul class="nav-links">
             <li><a href="#pipeline">Pipeline</a></li>
-            <li><a href="#examples">Examples</a></li>
-            <li><a href="#features">Features</a></li>
+            <li><a href="#features-overview">Features</a></li>
+            <li><a href="#features-detailed">Details</a></li>
             <li><a href="https://github.com/VamsiSudhakaran1/release-gate">GitHub</a></li>
         </ul>
     </nav>
@@ -802,45 +934,227 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features-section" id="features">
+    <!-- Features Overview Section -->
+    <section class="features-overview-section" id="features-overview">
         <div class="section-title">
             <h2>What release-gate Enforces</h2>
-            <p>v0.2.0 validates these 4 governance policies before deployment</p>
+            <p>v0.2.0 validates these 4 governance checks before deployment</p>
         </div>
 
-        <div class="features-grid">
-            <div class="feature-card reveal">
-                <div class="feature-icon">📋</div>
+        <div class="features-overview-grid">
+            <div class="feature-overview-card reveal">
+                <div class="feature-overview-icon">📋</div>
                 <h3>INPUT_CONTRACT</h3>
-                <p>Request schema is well-defined and tested with valid/invalid samples.</p>
+                <p>Request schema validation</p>
             </div>
 
-            <div class="feature-card reveal">
-                <div class="feature-icon">🛡️</div>
+            <div class="feature-overview-card reveal">
+                <div class="feature-overview-icon">🛡️</div>
                 <h3>FALLBACK_DECLARED</h3>
-                <p>Kill switch, fallback mode, ownership, and incident runbook are documented.</p>
+                <p>Operational safeguards</p>
             </div>
 
-            <div class="feature-card reveal">
-                <div class="feature-icon">🔐</div>
-                <h3>IDENTITY_BOUNDARY (v0.2)</h3>
-                <p>Authentication is required, rate limits are set, data isolation is defined.</p>
+            <div class="feature-overview-card reveal new-badge">
+                <div class="feature-overview-icon">🔐</div>
+                <h3>IDENTITY_BOUNDARY</h3>
+                <p>Access control & rate limits</p>
             </div>
 
-            <div class="feature-card reveal">
-                <div class="feature-icon">💰</div>
-                <h3>ACTION_BUDGET (v0.2)</h3>
-                <p>Token, retry, cost, and concurrency limits are enforced.</p>
+            <div class="feature-overview-card reveal new-badge">
+                <div class="feature-overview-icon">💰</div>
+                <h3>ACTION_BUDGET</h3>
+                <p>Resource & cost controls</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Detailed Section -->
+    <section class="features-detailed-section" id="features-detailed">
+        <div class="section-title">
+            <h2>Deep Dive Into Features</h2>
+            <p>How each check works, when you use it, and why it matters</p>
+        </div>
+
+        <div class="features-detailed-grid">
+            <!-- INPUT_CONTRACT -->
+            <div class="feature-detailed-card reveal">
+                <div class="feature-card-header">
+                    <div class="feature-card-header-icon">📋</div>
+                    <div>
+                        <h3>INPUT_CONTRACT</h3>
+                        <p>Request schema validation & testing</p>
+                    </div>
+                </div>
+                <div class="feature-card-body">
+                    <!-- How it's used -->
+                    <div class="feature-section">
+                        <div class="feature-section-title">How It's Used</div>
+                        <div class="how-its-used">schema:
+  type: object
+  required: [prompt]
+  properties:
+    prompt:
+      type: string
+      minLength: 1
+      maxLength: 1000</div>
+                    </div>
+
+                    <!-- Real Uses -->
+                    <div class="feature-section">
+                        <div class="feature-section-title">Real Uses</div>
+                        <div class="real-uses">
+                            <div class="use-item">Validates JSON Schema syntax</div>
+                            <div class="use-item">Tests valid samples pass</div>
+                            <div class="use-item">Tests invalid samples fail</div>
+                            <div class="use-item">Prevents malformed requests</div>
+                        </div>
+                    </div>
+
+                    <!-- Impact -->
+                    <div class="feature-section">
+                        <div class="impact-box">
+                            <div class="impact-title">Real Impact</div>
+                            <div class="impact-description">Ensures your agent receives well-formed requests. Prevents crashes from unexpected input types. Catches schema errors before production.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FALLBACK_DECLARED -->
+            <div class="feature-detailed-card reveal">
+                <div class="feature-card-header">
+                    <div class="feature-card-header-icon">🛡️</div>
+                    <div>
+                        <h3>FALLBACK_DECLARED</h3>
+                        <p>Operational safety & incident response</p>
+                    </div>
+                </div>
+                <div class="feature-card-body">
+                    <!-- How it's used -->
+                    <div class="feature-section">
+                        <div class="feature-section-title">How It's Used</div>
+                        <div class="how-its-used">fallback_declared:
+  kill_switch:
+    type: feature_flag
+    name: disable_agent
+  ownership:
+    team: platform-eng
+    oncall: oncall-email
+  runbook_url:
+    https://wiki/runbook</div>
+                    </div>
+
+                    <!-- Real Uses -->
+                    <div class="feature-section">
+                        <div class="feature-section-title">Real Uses</div>
+                        <div class="real-uses">
+                            <div class="use-item">Declares kill switch mechanism</div>
+                            <div class="use-item">Specifies fallback behavior</div>
+                            <div class="use-item">Assigns team ownership</div>
+                            <div class="use-item">Links incident runbook</div>
+                        </div>
+                    </div>
+
+                    <!-- Impact -->
+                    <div class="feature-section">
+                        <div class="impact-box">
+                            <div class="impact-title">Real Impact</div>
+                            <div class="impact-description">Ensures you can kill the agent in <5 seconds. Team knows who to page. Incident response is documented. Production outages are handled fast.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IDENTITY_BOUNDARY -->
+            <div class="feature-detailed-card reveal">
+                <div class="feature-card-header">
+                    <div class="feature-card-header-icon">🔐</div>
+                    <div>
+                        <h3>IDENTITY_BOUNDARY (v0.2)</h3>
+                        <p>Access control & rate limiting</p>
+                    </div>
+                </div>
+                <div class="feature-card-body">
+                    <!-- How it's used -->
+                    <div class="feature-section">
+                        <div class="feature-section-title">How It's Used</div>
+                        <div class="how-its-used">identity_boundary:
+  authentication: required
+  rate_limit: 100
+  data_isolation:
+    - user_owned_only
+    - no_cross_access</div>
+                    </div>
+
+                    <!-- Real Uses -->
+                    <div class="feature-section">
+                        <div class="feature-section-title">Real Uses</div>
+                        <div class="real-uses">
+                            <div class="use-item">Requires user authentication</div>
+                            <div class="use-item">Limits requests per user/hour</div>
+                            <div class="use-item">Isolates customer data</div>
+                            <div class="use-item">Prevents unauthorized access</div>
+                        </div>
+                    </div>
+
+                    <!-- Impact -->
+                    <div class="feature-section">
+                        <div class="impact-box">
+                            <div class="impact-title">Real Impact</div>
+                            <div class="impact-description">Stops attackers from free agent access. Prevents customers from seeing each other's data. Blocks abuse and brute force. Makes multi-tenant safe.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTION_BUDGET -->
+            <div class="feature-detailed-card reveal">
+                <div class="feature-card-header">
+                    <div class="feature-card-header-icon">💰</div>
+                    <div>
+                        <h3>ACTION_BUDGET (v0.2)</h3>
+                        <p>Resource & cost controls</p>
+                    </div>
+                </div>
+                <div class="feature-card-body">
+                    <!-- How it's used -->
+                    <div class="feature-section">
+                        <div class="feature-section-title">How It's Used</div>
+                        <div class="how-its-used">action_budget:
+  max_tokens_per_req: 5000
+  max_retries: 3
+  max_daily_cost: 1000
+  max_concurrent: 10</div>
+                    </div>
+
+                    <!-- Real Uses -->
+                    <div class="feature-section">
+                        <div class="feature-section-title">Real Uses</div>
+                        <div class="real-uses">
+                            <div class="use-item">Caps tokens per request</div>
+                            <div class="use-item">Limits retry attempts</div>
+                            <div class="use-item">Sets daily spending limit</div>
+                            <div class="use-item">Bounds concurrent load</div>
+                        </div>
+                    </div>
+
+                    <!-- Impact -->
+                    <div class="feature-section">
+                        <div class="impact-box">
+                            <div class="impact-title">Real Impact</div>
+                            <div class="impact-description">Prevents infinite loop $50K bills. Stops resource exhaustion crashes. Ensures predictable monthly costs. Protects service availability.</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Examples Section -->
     <section class="examples-section" id="examples">
-        <div class="examples-title">
+        <div class="section-title">
             <h2>See It In Action</h2>
-            <p>Three agent types. Three deployment scenarios. Same governance gate.</p>
+            <p>Real agent scenarios with actual governance checks</p>
         </div>
 
         <div class="agent-tabs">
@@ -856,7 +1170,7 @@
                         <div class="example-icon">🎬</div>
                         <div>
                             <h3>Video Generation API</h3>
-                            <p>Autonomous agent that generates videos from prompts</p>
+                            <p>Autonomous agent that generates videos from text prompts</p>
                         </div>
                     </div>
 
@@ -1060,8 +1374,7 @@
 
                                 <div class="check-box">release-gate.yaml:
   fallback_declared:
-    data_egress: restricted
-    encryption: e2e</div>
+    data_egress: restricted</div>
 
                                 <div class="result-box">
                                     <div class="result-label">Decision</div>
@@ -1087,8 +1400,7 @@
 
                                 <div class="check-box">release-gate.yaml:
   fallback_declared:
-    max_latency: 5s
-    circuit_breaker: on</div>
+    max_latency: 5s</div>
 
                                 <div class="result-box">
                                     <div class="result-label">Decision</div>
@@ -1114,8 +1426,7 @@
 
                                 <div class="check-box">release-gate.yaml:
   action_budget:
-    max_memory: 2GB
-    auto_shutdown: true</div>
+    max_memory: 2GB</div>
 
                                 <div class="result-box">
                                     <div class="result-label">Decision</div>
