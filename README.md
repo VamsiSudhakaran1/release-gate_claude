@@ -2,10 +2,6 @@
 
 **The governance gate for autonomous AI agents.**
 
-![License](https://img.shields.io/badge/license-MIT-green)
-![Python](https://img.shields.io/badge/python-3.7+-blue)
-![Status](https://img.shields.io/badge/status-v0.2-brightgreen)
-
 Visit **[release-gate.com](https://release-gate.com)** for the complete story.
 
 ![License](https://img.shields.io/badge/license-MIT-green)
