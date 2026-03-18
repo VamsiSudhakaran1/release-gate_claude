@@ -3,33 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>release-gate | Deployment Governance for AI Agents</title>
-    <meta name="description" content="Enforce governance policies for AI agents before deployment. Pre-deployment validation, policy-as-code, compliance-ready.">
+    <title>release-gate | AI Agent Deployment Governance</title>
+    <meta name="description" content="Governance enforcement layer for production AI agents. Validate policies before deployment.">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #3b82f6;
+            --primary: #2563eb;
             --primary-dark: #1e40af;
-            --accent: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --bg: #0f172a;
-            --surface: #1e293b;
-            --surface-light: #334155;
-            --text: #e2e8f0;
-            --text-dim: #94a3b8;
-            --border: #475569;
+            --accent: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-light: #f1f5f9;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-dim: #64748b;
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        html { scroll-behavior: smooth; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: var(--bg);
@@ -37,50 +28,40 @@
             line-height: 1.6;
         }
 
-        /* Header & Navigation */
         header {
             position: sticky;
             top: 0;
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(248, 250, 252, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
             padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .header-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .logo span {
-            color: var(--text);
-            margin-left: 0.5rem;
-        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .logo span { color: var(--text); margin-left: 0.5rem; }
 
         nav a {
             color: var(--text-dim);
             text-decoration: none;
             margin: 0 1.5rem;
             transition: color 0.2s;
+            font-weight: 500;
         }
 
-        nav a:hover {
-            color: var(--primary);
-        }
+        nav a:hover { color: var(--primary); }
 
-        /* Hero Section */
         .hero {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 4rem 2rem;
             text-align: center;
@@ -89,27 +70,17 @@
         .hero h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text);
+            font-weight: 700;
         }
 
         .hero .tagline {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--text-dim);
             margin-bottom: 2rem;
-            max-width: 600px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
-        }
-
-        .hero .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
         }
 
         .btn {
@@ -124,955 +95,860 @@
             display: inline-block;
         }
 
-        .btn-primary {
-            background: var(--primary);
-            color: white;
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-secondary { background: var(--surface-light); color: var(--primary); border: 2px solid var(--primary); }
+        .btn-secondary:hover { background: var(--primary); color: white; }
+
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap; }
+
+        .badge { 
+            display: inline-block; 
+            background: rgba(5, 150, 105, 0.1); 
+            color: var(--accent); 
+            padding: 0.35rem 0.85rem; 
+            border-radius: 20px; 
+            font-size: 0.8rem; 
+            font-weight: 600; 
+            margin-bottom: 1rem;
+            border: 1px solid rgba(5, 150, 105, 0.3);
         }
 
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .hero .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        .stat-label {
-            color: var(--text-dim);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Video Demo Section */
-        .demo-section {
-            background: linear-gradient(180deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.8));
-            padding: 4rem 2rem;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            margin: 4rem 0;
-        }
-
-        .demo-content {
-            max-width: 1200px;
+        .section {
+            max-width: 1400px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
+            padding: 4rem 2rem;
         }
 
-        .demo-text h2 {
-            font-size: 2rem;
+        .section h2 {
+            font-size: 2.5rem;
             margin-bottom: 1rem;
+            color: var(--text);
+            font-weight: 700;
         }
 
-        .demo-text p {
+        .section-subtitle {
+            font-size: 1.1rem;
             color: var(--text-dim);
-            margin-bottom: 1rem;
-            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 800px;
         }
 
-        .demo-video {
-            aspect-ratio: 16 / 9;
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid var(--border);
+        /* Lifecycle Section */
+        .lifecycle-container { background: var(--surface-light); padding: 3rem; border-radius: 12px; margin-bottom: 3rem; border: 1px solid var(--border); }
+
+        .lifecycle-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; color: var(--text); }
+
+        .lifecycle-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .lifecycle-step {
+            background: var(--surface);
+            padding: 1.5rem;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-
-        .demo-video:hover {
-            border-color: var(--primary);
-        }
-
-        .play-button {
-            width: 60px;
-            height: 60px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
+            border: 2px solid var(--border);
             transition: all 0.3s;
         }
 
-        .demo-video:hover .play-button {
-            transform: scale(1.2);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        .lifecycle-step:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.1);
         }
 
-        .play-button::after {
-            content: '▶';
-            color: white;
-            font-size: 1.5rem;
-            margin-left: 4px;
+        .lifecycle-step-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
         }
 
-        /* Features Section */
-        .features {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
+        .lifecycle-step-name { font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+        .lifecycle-step-desc { font-size: 0.9rem; color: var(--text-dim); }
 
-        .features h2 {
-            font-size: 2rem;
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
+        .lifecycle-flow {
             background: var(--surface);
             padding: 2rem;
             border-radius: 8px;
-            border-left: 4px solid var(--primary);
-            transition: all 0.3s;
+            border: 2px dashed var(--primary);
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-left-color: var(--accent);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        .flow-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .feature-card p {
-            color: var(--text-dim);
-            line-height: 1.7;
-        }
-
-        /* Quick Start Section */
-        .quickstart {
-            background: linear-gradient(180deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.8));
-            padding: 4rem 2rem;
-            margin: 4rem 0;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .quickstart-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .quickstart h2 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
+        .flow-box {
+            background: rgba(37, 99, 235, 0.1);
+            padding: 1rem;
+            border-radius: 6px;
             text-align: center;
+            border-left: 4px solid var(--primary);
+            font-weight: 600;
+            color: var(--text);
         }
 
-        .quickstart-grid {
+        /* Necessity Section */
+        .necessity-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
-        .quickstart-item {
+        .necessity-card {
             background: var(--surface);
             padding: 2rem;
             border-radius: 8px;
             border: 1px solid var(--border);
+            transition: all 0.3s;
         }
 
-        .quickstart-item h3 {
-            color: var(--accent);
-            margin-bottom: 1rem;
+        .necessity-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .necessity-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .necessity-card p { color: var(--text-dim); line-height: 1.8; }
+
+        /* Checks Section */
+        .checks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .check-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .check-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 12px 24px rgba(5, 150, 105, 0.1);
+        }
+
+        .check-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .check-card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--text); font-weight: 700; }
+        .check-card p { color: var(--text-dim); margin-bottom: 1rem; line-height: 1.7; }
+
+        .check-details {
+            background: var(--surface-light);
+            padding: 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        /* Demo Section */
+        .demo-section { background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(5, 150, 105, 0.05)); padding: 4rem 2rem; margin: 4rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+        .demo-wrapper { max-width: 1400px; margin: 0 auto; }
+
+        .demo-text h2 { font-size: 2rem; margin-bottom: 1rem; color: var(--text); }
+        .demo-text p { color: var(--text-dim); margin-bottom: 1rem; line-height: 1.8; }
+
+        .demo-container {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .demo-controls {
             display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
             align-items: center;
-            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        .quickstart-item h3::before {
-            content: '▶';
-            font-size: 0.8rem;
+        label { font-weight: 600; color: var(--text); }
+
+        select, button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
         }
+
+        select { flex: 1; min-width: 300px; }
+        select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+        .demo-btn-run { background: var(--primary); color: white; border: none; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2); }
+        .demo-btn-run:hover { background: var(--primary-dark); }
+        .demo-btn-reset { background: var(--surface-light); border: 1px solid var(--border); }
+
+        .demo-terminal {
+            background: #1e293b;
+            color: #e2e8f0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+            min-height: 200px;
+        }
+
+        .term-line { margin-bottom: 0.3rem; }
+        .prompt { color: #3b82f6; font-weight: bold; }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        .warn { color: #f59e0b; }
+        .dim { color: #94a3b8; }
+
+        .demo-results {
+            display: none;
+            background: var(--surface-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .demo-results.show { display: block; }
+
+        .check-result {
+            background: var(--surface);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .check-result.pass { border-left-color: var(--accent); background: rgba(5, 150, 105, 0.05); }
+        .check-result.warn { border-left-color: var(--warning); background: rgba(217, 119, 6, 0.05); }
+        .check-result.fail { border-left-color: var(--danger); background: rgba(220, 38, 38, 0.05); }
+
+        .check-name { font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+        .check-name.pass { color: var(--accent); }
+        .check-name.warn { color: var(--warning); }
+        .check-name.fail { color: var(--danger); }
+
+        .check-detail { font-size: 0.85rem; color: var(--text-dim); }
+
+        .decision {
+            margin-top: 1rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 2px solid;
+        }
+
+        .decision.pass { background: rgba(5, 150, 105, 0.1); border-color: var(--accent); color: var(--accent); }
+        .decision.warn { background: rgba(217, 119, 6, 0.1); border-color: var(--warning); color: var(--warning); }
+        .decision.fail { background: rgba(220, 38, 38, 0.1); border-color: var(--danger); color: var(--danger); }
 
         .code-block {
-            background: rgba(0, 0, 0, 0.3);
+            background: #1e293b;
+            color: #e2e8f0;
             padding: 1rem;
-            border-radius: 4px;
+            border-radius: 6px;
             margin: 1rem 0;
-            overflow-x: auto;
-            font-family: 'Monaco', 'Courier New', monospace;
+            font-family: 'Courier New', monospace;
             font-size: 0.85rem;
-            line-height: 1.5;
-            color: var(--accent);
+            overflow-x: auto;
+            border: 1px solid var(--border);
         }
 
-        /* GitHub Actions Integration */
-        .github-section {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 2rem;
-        }
-
-        .github-section h2 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .github-card {
-            background: var(--surface);
-            padding: 2rem;
-            border-radius: 8px;
-            border: 2px solid var(--border);
-            margin-bottom: 2rem;
-        }
-
-        .github-card h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .github-card h3::before {
-            content: '⚙️';
-        }
-
-        .copy-button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 1rem;
-            transition: background 0.3s;
-        }
-
-        .copy-button:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Signup Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: var(--surface);
-            margin: 5% auto;
+        /* Roadmap Section */
+        .roadmap-container {
+            background: var(--surface-light);
             padding: 2rem;
             border-radius: 12px;
-            max-width: 500px;
-            border: 2px solid var(--border);
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .close-modal {
-            color: var(--text-dim);
-            float: right;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .close-modal:hover {
-            color: var(--text);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            background: rgba(0, 0, 0, 0.3);
             border: 1px solid var(--border);
-            border-radius: 4px;
+        }
+
+        .roadmap-phases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .roadmap-phase {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .roadmap-phase.v1 { border-left-color: var(--primary); }
+        .roadmap-phase.v2 { border-left-color: var(--accent); }
+        .roadmap-phase.v3 { border-left-color: var(--warning); }
+
+        .roadmap-title { font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
+        .roadmap-time { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1rem; }
+
+        .roadmap-features {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .roadmap-features li { margin-bottom: 0.5rem; }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(5, 150, 105, 0.1));
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .contact-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-title { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); text-align: center; }
+        .contact-subtitle { color: var(--text-dim); text-align: center; margin-bottom: 2rem; }
+
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text); }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
             color: var(--text);
             font-family: inherit;
+            font-size: 1rem;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group input:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         .submit-btn {
             width: 100%;
-            padding: 0.75rem;
+            padding: 1rem;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
-            transition: background 0.3s;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
         }
 
-        .submit-btn:hover {
-            background: var(--primary-dark);
-        }
+        .submit-btn:hover { background: var(--primary-dark); }
 
-        .success-message {
-            display: none;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
+        .success-message { display: none; background: rgba(5, 150, 105, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 1rem; border-radius: 6px; margin-bottom: 1rem; text-align: center; font-weight: 600; }
 
-        /* Footer */
         footer {
-            background: var(--surface);
+            background: var(--surface-light);
             border-top: 1px solid var(--border);
             padding: 3rem 2rem;
             margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h4 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .footer-section a,
-        .footer-section p {
-            color: var(--text-dim);
-            text-decoration: none;
-            margin-bottom: 0.5rem;
-            display: block;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: var(--primary);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid var(--border);
-            padding-top: 2rem;
             text-align: center;
             color: var(--text-dim);
         }
 
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1rem;
-        }
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); }
+        .modal-content { background: var(--surface); margin: 5% auto; padding: 2rem; border-radius: 12px; max-width: 500px; border: 1px solid var(--border); }
+        .close-modal { color: var(--text-dim); float: right; font-size: 2rem; cursor: pointer; }
 
-        .social-links a {
-            display: inline-flex;
-            width: 40px;
-            height: 40px;
-            align-items: center;
-            justify-content: center;
-            background: var(--surface-light);
-            border-radius: 50%;
-            transition: background 0.3s;
-        }
-
-        .social-links a:hover {
-            background: var(--primary);
-        }
-
-        /* About Section */
-        .about {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 2rem;
-        }
-
-        .about-card {
-            background: var(--surface);
-            padding: 2rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent);
-        }
-
-        .about-card h3 {
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-
-        .about-card p {
-            color: var(--text-dim);
-            line-height: 1.8;
-            margin-bottom: 1rem;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero .tagline {
-                font-size: 1rem;
-            }
-
-            .demo-content {
-                grid-template-columns: 1fr;
-            }
-
-            .hero .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .features-grid,
-            .quickstart-grid {
-                grid-template-columns: 1fr;
-            }
-
-            nav a {
-                margin: 0 0.75rem;
-                font-size: 0.9rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
+            .hero h1 { font-size: 2rem; }
+            .demo-controls { flex-direction: column; }
+            select { min-width: auto; }
+            .lifecycle-steps { grid-template-columns: 1fr; }
         }
 
-        .badge {
-            display: inline-block;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--accent);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .highlight {
-            color: var(--accent);
-            font-weight: 600;
-        }
+        .highlight { color: var(--primary); font-weight: 600; }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="header-content">
             <div class="logo">🚪 <span>release-gate</span></div>
             <nav>
-                <a href="#features">Features</a>
-                <a href="#quickstart">Quick Start</a>
-                <a href="#github">Integration</a>
-                <a href="#about">About</a>
-                <a href="#" onclick="openSignup(event)" class="btn btn-primary" style="margin: 0;">Try Now</a>
+                <a href="#lifecycle">Lifecycle</a>
+                <a href="#necessity">Why</a>
+                <a href="#checks">Checks</a>
+                <a href="#demo">Demo</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="#contact">Contact</a>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="badge">✨ v0.2.0 — Production Ready</div>
-        <h1>Deploy AI Agents With Confidence</h1>
-        <p class="tagline">
-            Enforce governance policies before deployment. Validate configurations, audit decisions, prove compliance.
-        </p>
+        <h1>AI Agent Deployment Governance</h1>
+        <p class="tagline">Enforcement layer for autonomous AI agents. Validate governance policies before production deployment.</p>
         <div class="cta-buttons">
-            <button class="btn btn-primary" onclick="openSignup()">Get Started Free</button>
-            <a href="#demo" class="btn btn-secondary">Watch Demo</a>
+            <button class="btn btn-primary" onclick="document.getElementById('contactSection').scrollIntoView({behavior: 'smooth'})">Get Started</button>
+            <a href="#demo" class="btn btn-secondary">See Demo</a>
         </div>
+    </section>
 
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-number">4</div>
-                <div class="stat-label">Governance Checks</div>
+    <!-- Lifecycle Section -->
+    <section id="lifecycle" class="section">
+        <h2>Deployment Lifecycle</h2>
+        <p class="section-subtitle">Where release-gate fits in your AI agent deployment pipeline</p>
+
+        <div class="lifecycle-container">
+            <div class="lifecycle-title">🔄 Agent Deployment Pipeline</div>
+
+            <div class="lifecycle-steps">
+                <div class="lifecycle-step">
+                    <div class="lifecycle-step-number">1</div>
+                    <div class="lifecycle-step-name">Build</div>
+                    <div class="lifecycle-step-desc">Agent code compiled & packaged</div>
+                </div>
+                <div class="lifecycle-step">
+                    <div class="lifecycle-step-number">2</div>
+                    <div class="lifecycle-step-name">Test</div>
+                    <div class="lifecycle-step-desc">Unit & integration tests run</div>
+                </div>
+                <div class="lifecycle-step" style="border: 2px solid var(--accent); box-shadow: 0 8px 16px rgba(5, 150, 105, 0.2);">
+                    <div class="lifecycle-step-number" style="color: var(--accent);">3</div>
+                    <div class="lifecycle-step-name" style="color: var(--accent);">release-gate</div>
+                    <div class="lifecycle-step-desc">🔐 Governance validation checks</div>
+                </div>
+                <div class="lifecycle-step">
+                    <div class="lifecycle-step-number">4</div>
+                    <div class="lifecycle-step-name">Deploy</div>
+                    <div class="lifecycle-step-desc">Production rollout starts</div>
+                </div>
+                <div class="lifecycle-step">
+                    <div class="lifecycle-step-number">5</div>
+                    <div class="lifecycle-step-name">Monitor</div>
+                    <div class="lifecycle-step-desc">Health & compliance tracking</div>
+                </div>
             </div>
-            <div class="stat">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">Test Coverage</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">0</div>
-                <div class="stat-label">External Dependencies</div>
+
+            <div class="lifecycle-flow">
+                <strong style="color: var(--text);">How It Works:</strong>
+                <div style="margin-top: 1rem; color: var(--text-dim);">
+                    <p>✓ Agent passes build → ✓ Passes tests → 🚪 <span style="color: var(--accent); font-weight: 600;">release-gate validates governance</span> → If PASS: deploy | If WARN: manual review | If FAIL: blocked</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
+    <!-- Why It's Necessary Section -->
+    <section id="necessity" class="section">
+        <h2>Why This Is Necessary</h2>
+        <p class="section-subtitle">You have QA, UAT, integration tests. Why add governance enforcement?</p>
+
+        <div class="necessity-grid">
+            <div class="necessity-card">
+                <h3>🤖 AI Agents Are Different</h3>
+                <p>Traditional QA tests behavior. But AI agents can behave unpredictably in production. QA validates "does it work?" Governance validates "is it safe to run?"</p>
+            </div>
+
+            <div class="necessity-card">
+                <h3>⚠️ QA Tests Functionality</h3>
+                <p>QA verifies agent returns correct answer. But QA can't test:</p>
+                <ul style="margin-top: 0.5rem; margin-left: 1rem; color: var(--text-dim);">
+                    <li>• Did you set cost limits?</li>
+                    <li>• Is authentication required?</li>
+                    <li>• Do you have a kill switch?</li>
+                    <li>• Who owns this agent?</li>
+                </ul>
+            </div>
+
+            <div class="necessity-card">
+                <h3>🔐 Governance is Compliance</h3>
+                <p>QA passes → Deploy to production. But compliance teams want proof:</p>
+                <ul style="margin-top: 0.5rem; margin-left: 1rem; color: var(--text-dim);">
+                    <li>• Cost constraints documented</li>
+                    <li>• Access control enforced</li>
+                    <li>• Rollback plan exists</li>
+                    <li>• Audit trail complete</li>
+                </ul>
+            </div>
+
+            <div class="necessity-card">
+                <h3>📊 Automated Evidence</h3>
+                <p>release-gate creates an audit trail. Instead of "we followed best practices," you have "agent passed all 4 governance checks on 2026-03-18 at 14:32 UTC."</p>
+            </div>
+
+            <div class="necessity-card">
+                <h3>⏱️ 10x Faster Deployments</h3>
+                <p>Manual governance review = 1-3 days. release-gate checks in 7 seconds. Developers know instantly if they're compliant. No bottlenecks.</p>
+            </div>
+
+            <div class="necessity-card">
+                <h3>🛡️ Prevents Costly Failures</h3>
+                <p>Agent deployed without rate limits → Costs $50k in 2 hours. release-gate catches this before deployment. Policy enforcement saves money.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checks Section -->
+    <section id="checks" class="section">
         <h2>The 4 Governance Checks</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <h3>✓ INPUT_CONTRACT</h3>
-                <p>Validate request schemas. Ensure valid and invalid samples pass/fail correctly. No ambiguous APIs.</p>
+        <p class="section-subtitle">What release-gate validates before deployment</p>
+
+        <div class="checks-grid">
+            <div class="check-card">
+                <div class="check-icon">📋</div>
+                <h3>INPUT_CONTRACT</h3>
+                <p>Validates that request schemas are explicit and tested.</p>
+                <div class="check-details">
+                    <strong>Validates:</strong><br>
+                    ✓ Schema JSON defined<br>
+                    ✓ Valid samples pass<br>
+                    ✓ Invalid samples fail<br>
+                    <strong>Why:</strong> Prevents agents from accepting garbage input that could cause failures.
+                </div>
             </div>
-            <div class="feature-card">
-                <h3>✓ FALLBACK_DECLARED</h3>
-                <p>Kill switches, fallback modes, ownership assigned, runbook URLs. Operational safety proven.</p>
+
+            <div class="check-card">
+                <div class="check-icon">⏹️</div>
+                <h3>FALLBACK_DECLARED</h3>
+                <p>Confirms operational safeguards are in place.</p>
+                <div class="check-details">
+                    <strong>Validates:</strong><br>
+                    ✓ Kill switch defined<br>
+                    ✓ Fallback mode exists<br>
+                    ✓ Team ownership clear<br>
+                    ✓ Runbook provided<br>
+                    <strong>Why:</strong> Ensures you can stop the agent if something goes wrong.
+                </div>
             </div>
-            <div class="feature-card">
-                <h3>✓ IDENTITY_BOUNDARY</h3>
-                <p>Authentication required, rate limits configured, data isolation defined. Access control enforced.</p>
+
+            <div class="check-card">
+                <div class="check-icon">🔐</div>
+                <h3>IDENTITY_BOUNDARY</h3>
+                <p>Enforces access control and rate limiting.</p>
+                <div class="check-details">
+                    <strong>Validates:</strong><br>
+                    ✓ Authentication required<br>
+                    ✓ Rate limits configured<br>
+                    ✓ Data isolation defined<br>
+                    <strong>Why:</strong> Prevents unauthorized access and abuse.
+                </div>
             </div>
-            <div class="feature-card">
-                <h3>✓ ACTION_BUDGET</h3>
-                <p>Token limits, retry counts, cost caps, concurrency guards. Resource constraints proven.</p>
+
+            <div class="check-card">
+                <div class="check-icon">💰</div>
+                <h3>ACTION_BUDGET</h3>
+                <p>Validates resource constraints are defined.</p>
+                <div class="check-details">
+                    <strong>Validates:</strong><br>
+                    ✓ Max tokens per request<br>
+                    ✓ Max retries configured<br>
+                    ✓ Daily cost limit set<br>
+                    ✓ Concurrent requests capped<br>
+                    <strong>Why:</strong> Prevents runaway costs and resource exhaustion.
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Demo Section -->
     <section id="demo" class="demo-section">
-        <div class="demo-content">
+        <div class="demo-wrapper">
             <div class="demo-text">
                 <h2>See It In Action</h2>
-                <p>Watch release-gate validate a video generation agent's governance policy in under 7 seconds.</p>
-                <p>The gate runs in your CI/CD pipeline, blocks deployment if thresholds fail, and creates audit trails for compliance.</p>
-                <p><span class="highlight">Try the interactive demo</span> on the right. Choose a scenario and watch policies validate in real-time.</p>
-                <button class="btn btn-primary" onclick="openSignup()">Start Your First Gate</button>
+                <p>Watch release-gate validate real AI agent configurations. Choose a scenario and see how governance checks work in your CI/CD pipeline.</p>
             </div>
-            <div class="demo-video" onclick="alert('Demo feature: Click the button below to try the interactive validator. In production, this opens an embedded demo showing real CI/CD integration.')">
-                <div class="play-button"></div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Quick Start Section -->
-    <section id="quickstart" class="quickstart">
-        <div class="quickstart-content">
-            <h2>Quick Start (5 Minutes)</h2>
-            <div class="quickstart-grid">
-                <div class="quickstart-item">
-                    <h3>1. Install</h3>
-                    <p>No external services. No data transmission. Local-first evaluation.</p>
-                    <div class="code-block">pip install pyyaml jsonschema</div>
+            <div class="demo-container">
+                <h3 style="margin-bottom: 1.5rem; text-align: center; color: var(--primary);">🚪 Interactive Governance Validator</h3>
+
+                <div class="demo-controls">
+                    <label for="demoScenario">Scenario:</label>
+                    <select id="demoScenario">
+                        <option value="pass">✓ PASS - LLM Support Agent (All checks pass)</option>
+                        <option value="warn">⚠ WARN - Audio Agent (Manual review needed)</option>
+                        <option value="fail">✗ FAIL - Video Agent (Critical failures)</option>
+                    </select>
+                    <button class="demo-btn-run" onclick="runDemoNow()">▶ Run Demo</button>
+                    <button class="demo-btn-reset" onclick="resetDemoNow()">↻ Reset</button>
                 </div>
 
-                <div class="quickstart-item">
-                    <h3>2. Initialize</h3>
-                    <p>Creates a sample configuration template with all 4 checks.</p>
-                    <div class="code-block">python cli.py init --project my-agent</div>
+                <div class="demo-terminal" id="demoTerminal">
+                    <div class="term-line"><span class="dim"># Select a scenario and click Run Demo</span></div>
                 </div>
 
-                <div class="quickstart-item">
-                    <h3>3. Configure</h3>
-                    <p>Define governance policies in simple YAML. No code required.</p>
-                    <div class="code-block">vim release-gate.yaml
-# Add your checks</div>
-                </div>
-
-                <div class="quickstart-item">
-                    <h3>4. Validate</h3>
-                    <p>Gate validates your agent configuration. Exit code tells CI/CD what to do.</p>
-                    <div class="code-block">python cli.py run \
-  --config release-gate.yaml</div>
-                </div>
-
-                <div class="quickstart-item">
-                    <h3>5. Gate Decision</h3>
-                    <p>PASS (0), WARN (10), or FAIL (1). Your CI/CD responds accordingly.</p>
-                    <div class="code-block">if $? -eq 0: deploy
-elif $? -eq 10: manual_review
-else: block_deployment</div>
-                </div>
-
-                <div class="quickstart-item">
-                    <h3>6. Audit Trail</h3>
-                    <p>JSON report shows what passed, what warned, what failed, and why.</p>
-                    <div class="code-block">cat readiness_report.json
-# Full compliance evidence</div>
+                <div class="demo-results" id="demoResults">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Governance Checks Results</h4>
+                    <div id="demoChecksContainer"></div>
+                    <div id="demoDecisionBox"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- GitHub Actions Section -->
-    <section id="github" class="github-section">
-        <h2>GitHub Actions Integration</h2>
-        <div class="github-card">
-            <h3>One-Command Deployment Gate</h3>
-            <p>Add this to your workflow. release-gate runs on every pull request, gates your deployments.</p>
-            <div class="code-block">- name: Governance Gate
-  run: |
-    pip install pyyaml jsonschema
-    python cli.py run \
-      --config release-gate.yaml \
-      --format json \
-      --output report.json
-  
-  - name: Parse Decision
-    run: |
-      EXIT_CODE=$?
-      if [ $EXIT_CODE -eq 0 ]; then
-        echo "✓ PASS - Deploying"
-        echo "GATE_DECISION=PASS" >> $GITHUB_ENV
-      elif [ $EXIT_CODE -eq 10 ]; then
-        echo "⚠ WARN - Manual review needed"
-        echo "GATE_DECISION=WARN" >> $GITHUB_ENV
-      else
-        echo "✗ FAIL - Deployment blocked"
-        echo "GATE_DECISION=FAIL" >> $GITHUB_ENV
-        exit 1
-      fi
-  
-  - name: Upload Report
-    uses: actions/upload-artifact@v3
-    with:
-      name: governance-report
-      path: report.json</div>
-            <button class="copy-button" onclick="copyToClipboard()">📋 Copy Workflow</button>
-        </div>
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="section">
+        <h2>Product Roadmap</h2>
+        <p class="section-subtitle">What's next for release-gate</p>
 
-        <div class="github-card">
-            <h3>Real Configuration Example</h3>
-            <p>This is what your release-gate.yaml looks like. All 4 checks, production-ready.</p>
-            <div class="code-block">project:
-  name: video-generation-agent
-  version: 1.0.0
+        <div class="roadmap-container">
+            <div class="roadmap-phases">
+                <div class="roadmap-phase v1">
+                    <div class="roadmap-title">✅ v0.2 - Current</div>
+                    <div class="roadmap-time">Available now</div>
+                    <ul class="roadmap-features">
+                        <li>✓ 4 core governance checks</li>
+                        <li>✓ YAML config support</li>
+                        <li>✓ JSON & text output</li>
+                        <li>✓ CI/CD integration</li>
+                        <li>✓ Exit code decisions</li>
+                    </ul>
+                </div>
 
-checks:
-  input_contract:
-    enabled: true
-    schema:
-      type: object
-      required: [prompt, duration]
-      properties:
-        prompt:
-          type: string
-          minLength: 1
-          maxLength: 1000
-        duration:
-          type: number
-          minimum: 1
-          maximum: 60
-    samples:
-      valid_path: valid_requests.jsonl
-      invalid_path: invalid_requests.jsonl
+                <div class="roadmap-phase v2">
+                    <div class="roadmap-title">📅 v0.3 - Phase 2</div>
+                    <div class="roadmap-time">Q2 2026 (6 weeks)</div>
+                    <ul class="roadmap-features">
+                        <li>🔲 GitHub Actions marketplace</li>
+                        <li>🔲 LangChain auto-detect</li>
+                        <li>🔲 Template library</li>
+                        <li>🔲 Custom policies (MVP)</li>
+                        <li>🔲 Audit trail export</li>
+                    </ul>
+                </div>
 
-  fallback_declared:
-    enabled: true
-    kill_switch:
-      type: feature_flag
-      name: disable_video_generation
-    fallback:
-      mode: static_placeholder
-    ownership:
-      team: platform-team
-      oncall: oncall@company.com
-    runbook_url: https://wiki.company.com/video-generation-runbook
-
-  identity_boundary:
-    enabled: true
-    authentication: required
-    rate_limit: 100
-    data_isolation:
-      - user_owned_data_only
-
-  action_budget:
-    enabled: true
-    max_tokens_per_request: 5000
-    max_retries: 3
-    max_daily_cost: 1000
-    max_concurrent_requests: 10</div>
-            <button class="copy-button" onclick="copyToClipboard()">📋 Copy Config</button>
-        </div>
-
-        <div class="github-card">
-            <h3>Expected Output</h3>
-            <p>This is what release-gate shows you in CI/CD. Clear, actionable, compliance-ready.</p>
-            <div class="code-block">======================================================
-  release-gate v0.2.0 | Governance Report
-======================================================
-
-Project: video-generation-agent
-Environment: staging
-Timestamp: 2026-04-16T14:32:00Z
-
-──────────────────────────────────────────────────────
-
-input_contract:
-  Status: ✓ PASS
-  Valid samples tested: 5/5 ✓
-  Invalid samples rejected: 3/3 ✓
-
-fallback_declared:
-  Status: ✓ PASS
-  Kill switch declared: True ✓
-  Fallback mode defined: True ✓
-  Ownership assigned: True ✓
-  Runbook provided: True ✓
-
-identity_boundary:
-  Status: ✓ PASS
-  Authentication required: True ✓
-  Rate limit (100 req/min): Configured ✓
-  Data isolation: Defined ✓
-
-action_budget:
-  Status: ✓ PASS
-  Max tokens/request: 5000 ✓
-  Max retries: 3 ✓
-  Daily cost limit: $1000 ✓
-  Concurrent requests: 10 ✓
-
-──────────────────────────────────────────────────────
-Summary: 4 passed, 0 warned, 0 failed
-Decision: ✓ PASS
-Exit Code: 0 (Deploy)
-======================================================</div>
+                <div class="roadmap-phase v3">
+                    <div class="roadmap-title">🎯 v1.0 - Phase 3</div>
+                    <div class="roadmap-time">Q3 2026 (12 weeks)</div>
+                    <ul class="roadmap-features">
+                        <li>🔲 Dashboard & analytics</li>
+                        <li>🔲 Advanced policies</li>
+                        <li>🔲 Multiple CI/CD systems</li>
+                        <li>🔲 Approval workflows</li>
+                        <li>🔲 Community plugins</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="about-card">
-            <h3>👋 About release-gate</h3>
-            <p><span class="highlight">Built by Vamsi</span> — Solopreneur building the governance infrastructure for AI agents.</p>
-            <p>release-gate is the policy enforcement layer for autonomous AI agents. It validates that your agents are safe, configuration is complete, and governance standards are met — before they reach production.</p>
-            <p><strong>Think of it as:</strong> OPA for AI agents. SonarQube for governance. The admission controller for your deployment pipeline.</p>
-            <p><strong>Based on:</strong> <a href="https://arxiv.org/abs/2602.20021" target="_blank" style="color: var(--primary);">Agents of Chaos: Red-Teaming of Autonomous AI Agents</a></p>
-            <p style="margin-top: 1.5rem;"><strong>Questions? Email me:</strong> <a href="mailto:vamsi.sudhakaran@gmail.com" style="color: var(--primary);">vamsi.sudhakaran@gmail.com</a></p>
-            <p><strong>GitHub:</strong> <a href="https://github.com/VamsiSudhakaran1/release-gate" target="_blank" style="color: var(--primary);">github.com/VamsiSudhakaran1/release-gate</a></p>
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="contact-section">
+            <div class="contact-wrapper" id="contactSection">
+                <h2 class="contact-title">Get Started Today</h2>
+                <p class="contact-subtitle">Join early adopters. Get governance enforcement for your AI agents.</p>
+
+                <div class="success-message" id="successMessage">
+                    ✓ Thanks for your interest! We'll be in touch within 24 hours.
+                </div>
+
+                <form id="contactForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label>Your Name *</label>
+                        <input type="text" required placeholder="Your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" required placeholder="your@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Company / Team</label>
+                        <input type="text" placeholder="Your organization">
+                    </div>
+
+                    <div class="form-group">
+                        <label>How many AI agents do you deploy? *</label>
+                        <input type="number" required placeholder="e.g., 3" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>What's your biggest governance challenge?</label>
+                        <textarea placeholder="Tell us about your use case..." rows="4"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+
+                <p style="text-align: center; color: var(--text-dim); font-size: 0.9rem; margin-top: 1.5rem;">
+                    📧 Or email directly: <a href="mailto:vamsi.sudhakaran@gmail.com" style="color: var(--primary);">vamsi.sudhakaran@gmail.com</a><br>
+                    💻 GitHub: <a href="https://github.com/VamsiSudhakaran1/release-gate" target="_blank" style="color: var(--primary);">github.com/VamsiSudhakaran1/release-gate</a>
+                </p>
+            </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Product</h4>
-                <a href="#features">Features</a>
-                <a href="#github">Integration</a>
-                <a href="https://github.com/VamsiSudhakaran1/release-gate" target="_blank">GitHub</a>
-                <a href="https://release-gate.com" target="_blank">Website</a>
-            </div>
-            <div class="footer-section">
-                <h4>Resources</h4>
-                <a href="#quickstart">Quick Start</a>
-                <a href="https://github.com/VamsiSudhakaran1/release-gate/blob/main/README.md" target="_blank">Documentation</a>
-                <a href="https://github.com/VamsiSudhakaran1/release-gate/issues" target="_blank">GitHub Issues</a>
-            </div>
-            <div class="footer-section">
-                <h4>Community</h4>
-                <p>Building governance for AI agents. Questions? Reach out.</p>
-                <p><a href="mailto:vamsi.sudhakaran@gmail.com">vamsi.sudhakaran@gmail.com</a></p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2026 release-gate. MIT License.</p>
-            <p style="margin-top: 1rem; font-size: 0.9rem;">Powered by policy-as-code. Built for production.</p>
-        </div>
+        <p>&copy; 2026 release-gate. MIT License.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">Built by Vamsi • Solopreneur • Governance for AI Agents</p>
     </footer>
 
-    <!-- Signup Modal -->
-    <div id="signupModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeSignup()">&times;</span>
-            <h2 style="color: var(--primary); margin-bottom: 1.5rem;">Get Started Free</h2>
-            
-            <div class="success-message" id="successMessage">
-                ✓ Thanks for your interest! We'll send you early access within 24 hours.
-            </div>
-
-            <form id="signupForm" onsubmit="handleSignup(event)">
-                <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" required placeholder="e.g., Sarah">
-                </div>
-
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" required placeholder="your@company.com">
-                </div>
-
-                <div class="form-group">
-                    <label>Company / Team</label>
-                    <input type="text" placeholder="e.g., Acme AI">
-                </div>
-
-                <div class="form-group">
-                    <label>How many agents will you deploy?</label>
-                    <input type="number" placeholder="e.g., 3" min="1">
-                </div>
-
-                <div class="form-group">
-                    <label>What's your biggest governance challenge? (Optional)</label>
-                    <textarea placeholder="Tell us about your use case..."></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">Get Early Access</button>
-            </form>
-
-            <p style="text-align: center; color: var(--text-dim); font-size: 0.9rem; margin-top: 1rem;">
-                We'll send setup instructions and a sandbox environment within 24 hours.
-            </p>
-        </div>
-    </div>
-
     <script>
-        function openSignup(event) {
-            if (event) event.preventDefault();
-            document.getElementById('signupModal').style.display = 'block';
-        }
-
-        function closeSignup() {
-            document.getElementById('signupModal').style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('signupModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
+        const demoScenarios = {
+            pass: {
+                name: 'LLM Support Agent',
+                checks: [
+                    { name: 'INPUT_CONTRACT', status: 'PASS', details: ['✓ Schema defined correctly', '✓ Valid samples: 5/5 passed', '✓ Invalid samples: 3/3 rejected'] },
+                    { name: 'FALLBACK_DECLARED', status: 'PASS', details: ['✓ Kill switch: feature_flag', '✓ Fallback mode: static_response', '✓ Team: platform-team', '✓ Runbook provided'] },
+                    { name: 'IDENTITY_BOUNDARY', status: 'PASS', details: ['✓ Authentication: required', '✓ Rate limit: 10/min', '✓ Data isolation: customer_only'] },
+                    { name: 'ACTION_BUDGET', status: 'PASS', details: ['✓ Max tokens: 2000', '✓ Max retries: 3', '✓ Cost limit: $100/day', '✓ Concurrent: 5'] }
+                ],
+                decision: { text: '✓ PASS - Safe to deploy immediately', class: 'pass', code: 0 }
+            },
+            warn: {
+                name: 'Audio Processing Agent',
+                checks: [
+                    { name: 'INPUT_CONTRACT', status: 'PASS', details: ['✓ Schema defined correctly', '✓ Valid samples: 4/4 passed', '✓ Invalid samples: 3/3 rejected'] },
+                    { name: 'FALLBACK_DECLARED', status: 'PASS', details: ['✓ Kill switch defined', '✓ Fallback mode defined', '✓ Team assigned', '✓ Runbook provided'] },
+                    { name: 'IDENTITY_BOUNDARY', status: 'WARN', details: ['✓ Authentication: required', '⚠ Rate limit: 500/min (UNUSUALLY HIGH)', '⚠ Data isolation: partial (REVIEW)'] },
+                    { name: 'ACTION_BUDGET', status: 'PASS', details: ['✓ Max tokens: 5000', '✓ Max retries: 2', '✓ Cost limit: $500/day', '✓ Concurrent: 10'] }
+                ],
+                decision: { text: '⚠ WARN - Manual review required before deployment', class: 'warn', code: 10 }
+            },
+            fail: {
+                name: 'Video Generation Agent',
+                checks: [
+                    { name: 'INPUT_CONTRACT', status: 'PASS', details: ['✓ Schema defined correctly', '✓ Valid samples: 4/4 passed', '⚠ Invalid samples: 2/3 rejected'] },
+                    { name: 'FALLBACK_DECLARED', status: 'PASS', details: ['✓ Kill switch defined', '✓ Fallback mode defined', '✓ Team assigned', '✓ Runbook provided'] },
+                    { name: 'IDENTITY_BOUNDARY', status: 'FAIL', details: ['✗ Authentication: OPTIONAL (MUST BE REQUIRED)', '✗ Rate limit: 1000/min (TOO HIGH)', '✗ Data isolation: UNDEFINED (REQUIRED)'] },
+                    { name: 'ACTION_BUDGET', status: 'FAIL', details: ['✗ Max tokens: UNDEFINED (REQUIRED)', '✗ Max retries: UNDEFINED (REQUIRED)', '✗ Cost limit: UNDEFINED (REQUIRED)', '✗ Concurrent: UNDEFINED (REQUIRED)'] }
+                ],
+                decision: { text: '✗ FAIL - Deployment blocked. Fix critical issues.', class: 'fail', code: 1 }
             }
+        };
+
+        async function sleep(ms) {
+            return new Promise(r => setTimeout(r, ms));
         }
 
-        function handleSignup(event) {
+        async function addLine(text, type = 'normal', delay = 100) {
+            const terminal = document.getElementById('demoTerminal');
+            const line = document.createElement('div');
+            line.className = 'term-line';
+
+            if (type === 'prompt') {
+                line.innerHTML = `<span class="prompt">$</span> ${text}`;
+            } else if (type === 'success') {
+                line.innerHTML = `<span class="success">✓</span> ${text}`;
+            } else if (type === 'error') {
+                line.innerHTML = `<span class="error">✗</span> ${text}`;
+            } else if (type === 'warn') {
+                line.innerHTML = `<span class="warn">⚠</span> ${text}`;
+            } else {
+                line.innerHTML = `<span class="dim">${text}</span>`;
+            }
+
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+            await sleep(delay);
+        }
+
+        async function runDemoNow() {
+            const scenarioKey = document.getElementById('demoScenario').value;
+            const scenario = demoScenarios[scenarioKey];
+
+            document.getElementById('demoTerminal').innerHTML = '';
+            document.getElementById('demoResults').classList.remove('show');
+
+            await addLine('python cli.py run --config release-gate.yaml --format json', 'prompt', 200);
+            await addLine('', 'normal', 100);
+            await addLine('=' + '='.repeat(59), 'normal', 100);
+            await addLine(`  ${scenario.name} - Governance Validation`, 'normal', 100);
+            await addLine('=' + '='.repeat(59), 'normal', 100);
+            await addLine('', 'normal', 200);
+
+            for (const check of scenario.checks) {
+                const type = check.status === 'PASS' ? 'success' : check.status === 'FAIL' ? 'error' : 'warn';
+                const icon = check.status === 'PASS' ? '✓' : check.status === 'FAIL' ? '✗' : '⚠';
+                await addLine(`${icon} ${check.name}: ${check.status}`, type, 300);
+            }
+
+            await addLine('', 'normal', 100);
+            await addLine('=' + '='.repeat(59), 'normal', 100);
+
+            const passCount = scenario.checks.filter(c => c.status === 'PASS').length;
+            const warnCount = scenario.checks.filter(c => c.status === 'WARN').length;
+            const failCount = scenario.checks.filter(c => c.status === 'FAIL').length;
+
+            await addLine(`Summary: ${passCount} passed, ${warnCount} warned, ${failCount} failed`, 'normal', 100);
+            const type = scenario.decision.class === 'pass' ? 'success' : scenario.decision.class === 'fail' ? 'error' : 'warn';
+            await addLine(`Decision: ${scenario.decision.class.toUpperCase()}`, type, 100);
+            await addLine(`Exit Code: ${scenario.decision.code}`, type, 100);
+            await addLine('=' + '='.repeat(59), 'normal', 100);
+
+            await sleep(500);
+            showResults(scenario);
+        }
+
+        function showResults(scenario) {
+            const container = document.getElementById('demoChecksContainer');
+            container.innerHTML = '';
+
+            for (const check of scenario.checks) {
+                const status = check.status.toLowerCase();
+                const icon = check.status === 'PASS' ? '✓' : check.status === 'FAIL' ? '✗' : '⚠';
+
+                const div = document.createElement('div');
+                div.className = `check-result ${status}`;
+                div.innerHTML = `
+                    <div class="check-name ${status}">${icon} ${check.name}</div>
+                    <div class="check-detail">${check.details.join('<br>')}</div>
+                `;
+                container.appendChild(div);
+            }
+
+            const decision = document.getElementById('demoDecisionBox');
+            decision.className = `decision ${scenario.decision.class}`;
+            decision.textContent = scenario.decision.text;
+
+            document.getElementById('demoResults').classList.add('show');
+        }
+
+        function resetDemoNow() {
+            document.getElementById('demoTerminal').innerHTML = '<div class="term-line"><span class="dim"># Select a scenario and click Run Demo</span></div>';
+            document.getElementById('demoResults').classList.remove('show');
+        }
+
+        function handleSubmit(event) {
             event.preventDefault();
-            
-            const form = event.target;
-            const name = form.elements[0].value;
-            const email = form.elements[1].value;
-            const company = form.elements[2].value;
-            const agents = form.elements[3].value;
-            const challenge = form.elements[4].value;
-
-            // In production, this would send to a backend service
-            // For now, show success message
             document.getElementById('successMessage').style.display = 'block';
-            form.style.display = 'none';
-
-            // Log to console (in production: send to backend)
-            console.log('Signup:', {
-                name,
-                email,
-                company,
-                agents,
-                challenge,
-                timestamp: new Date().toISOString()
-            });
-
-            // Email notification (would be handled by backend)
-            console.log(`📧 Send email to: ${email}`);
-            console.log(`📧 Also notify: vamsi.sudhakaran@gmail.com`);
-
-            // Reset after 3 seconds
+            document.getElementById('contactForm').style.display = 'none';
+            
             setTimeout(() => {
-                form.reset();
-                form.style.display = 'block';
+                document.getElementById('contactForm').reset();
+                document.getElementById('contactForm').style.display = 'block';
                 document.getElementById('successMessage').style.display = 'none';
-                closeSignup();
             }, 3000);
         }
 
-        function copyToClipboard() {
-            const codeBlock = event.target.previousElementSibling;
-            const text = codeBlock.textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = event.target;
-                const original = btn.textContent;
-                btn.textContent = '✓ Copied!';
-                setTimeout(() => {
-                    btn.textContent = original;
-                }, 2000);
-            });
-        }
-
-        // Smooth scroll to sections
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
-                if (href !== '#' && href !== '#demo') {
+                if (href !== '#') {
                     e.preventDefault();
                     const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
         });
