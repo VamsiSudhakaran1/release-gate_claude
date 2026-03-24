@@ -11,6 +11,10 @@
             box-sizing: border-box;
         }
         
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
@@ -25,6 +29,10 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #f0f0f0;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
         }
         
         nav h1 {
@@ -37,6 +45,8 @@
             text-decoration: none;
             color: #666;
             font-size: 0.95rem;
+            cursor: pointer;
+            transition: color 0.3s;
         }
         
         nav a:hover {
@@ -172,6 +182,12 @@
             padding: 2rem;
             border-radius: 8px;
             border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            border-color: #ff4444;
+            box-shadow: 0 4px 12px rgba(255, 68, 68, 0.1);
         }
         
         .feature-card.primary {
@@ -213,43 +229,125 @@
             font-weight: bold;
         }
         
-        /* Demo Section */
-        .demo-section {
+        /* Interactive Demo Section */
+        .interactive-demo-section {
             background: #1a1a1a;
             color: white;
             padding: 4rem 2rem;
         }
         
-        .demo-content {
+        .interactive-demo-content {
             max-width: 1200px;
             margin: 0 auto;
         }
         
-        .demo-section .section-title {
+        .interactive-demo-section .section-title {
             color: white;
         }
         
-        .demo-box {
-            background: #2a2a2a;
-            padding: 1.5rem;
-            border-radius: 6px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            overflow-x: auto;
-            margin-top: 1.5rem;
+        .demo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+            align-items: start;
         }
         
-        .demo-command {
+        .demo-controls {
+            background: #2a2a2a;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        
+        .demo-controls h3 {
+            margin-bottom: 1.5rem;
             color: #00ff00;
         }
         
-        .demo-output {
-            color: #00cc00;
+        .control-group {
+            margin-bottom: 1.5rem;
         }
         
-        .demo-error {
+        .control-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .control-group select,
+        .control-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #444;
+            background: #1a1a1a;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .control-group input:focus,
+        .control-group select:focus {
+            outline: none;
+            border-color: #ff4444;
+            box-shadow: 0 0 0 2px rgba(255, 68, 68, 0.1);
+        }
+        
+        .demo-button {
+            width: 100%;
+            padding: 0.875rem;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .demo-button:hover {
+            background: #ff2222;
+        }
+        
+        .demo-output {
+            background: #2a2a2a;
+            padding: 2rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            border: 1px solid #444;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .demo-output .line {
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-output .header {
+            color: #fff;
+            border-bottom: 1px solid #444;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-output .pass {
+            color: #00ff00;
+        }
+        
+        .demo-output .warn {
+            color: #ffff00;
+        }
+        
+        .demo-output .fail {
             color: #ff6666;
+        }
+        
+        .demo-output .info {
+            color: #00ccff;
         }
         
         /* Pricing Section */
@@ -330,6 +428,10 @@
             .btn {
                 width: 100%;
             }
+            
+            .demo-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -338,8 +440,8 @@
     <nav>
         <h1>🚪 release-gate</h1>
         <div>
-            <a href="#features">Features</a>
-            <a href="#demo">Demo</a>
+            <a onclick="scrollToFeatures(); return false;">Features</a>
+            <a onclick="scrollToDemo(); return false;">Demo</a>
             <a href="#pricing">Pricing</a>
             <a href="https://github.com/VamsiSudhakaran1/release-gate">GitHub</a>
         </div>
@@ -351,7 +453,7 @@
         <p>No warning. No limit. No governance.</p>
         <p style="margin-bottom: 3rem;">release-gate prevents this before it happens by enforcing cost limits, safety measures, and access control.</p>
         <div class="cta-buttons">
-            <a href="#features" class="btn btn-primary">See How It Works</a>
+            <a onclick="scrollToFeatures(); return false;" class="btn btn-primary">See How It Works</a>
             <a href="https://github.com/VamsiSudhakaran1/release-gate" class="btn btn-secondary">View on GitHub</a>
         </div>
     </section>
@@ -443,49 +545,61 @@
         </div>
     </section>
     
-    <!-- Demo Section -->
-    <section class="demo-section" id="demo">
-        <div class="demo-content">
-            <h2 class="section-title">See It In Action</h2>
+    <!-- Interactive Demo Section -->
+    <section class="interactive-demo-section" id="demo">
+        <div class="interactive-demo-content">
+            <h2 class="section-title">Try It Right Now - Interactive Demo</h2>
             <p style="text-align: center; margin-bottom: 2rem;">
-                Agent estimated to cost $250/day. Budget set to $100/day. What happens?
+                Adjust the values below to see how release-gate validates your agent configuration in real-time.
             </p>
             
-            <div class="demo-box">
-                <div class="demo-command">$ release-gate check --config governance.yaml</div>
-                <br>
-                <div style="color: #ffffff;">
-┌──────────────────────────────────────────┐<br>
-│ 🚪 release-gate: Governance Validation   │<br>
-├──────────────────────────────────────────┤<br>
-<br>
-💰 ACTION_BUDGET: ❌ FAIL<br>
-   Cost Control: Budget Exceeded<br>
-<br>
-   Daily Cost:    $250.00<br>
-   Monthly Cost:  $7,500.00<br>
-   Budget:        $100.00<br>
-   Daily Overage: $150.00<br>
-<br>
-   ✗ Daily cost EXCEEDS maximum budget by 2.5x<br>
-   ✗ This costs you $600K/year<br>
-   ✗ BLOCKED: Cannot deploy without fixing<br>
-<br>
-Remediation Options:<br>
-  Option 1: Use gpt-4-turbo (3.3x cheaper)<br>
-           New cost: $75.75/day → PASS ✓<br>
-<br>
-  Option 2: Reduce request volume<br>
-           New volume: 1200 req/day → PASS ✓<br>
-<br>
-❌ FINAL DECISION: FAIL (Deployment blocked)<br>
-└──────────────────────────────────────────┘
+            <div class="demo-container">
+                <!-- Demo Controls -->
+                <div class="demo-controls">
+                    <h3>⚙️ Configure Your Agent</h3>
+                    
+                    <div class="control-group">
+                        <label for="model">Model:</label>
+                        <select id="model" onchange="runDemo()">
+                            <option value="gpt-4-turbo">GPT-4-Turbo ($0.00001 input, $0.00003 output)</option>
+                            <option value="gpt-4">GPT-4 ($0.00003 input, $0.0001 output)</option>
+                            <option value="gpt-4o">GPT-4o ($0.000005 input, $0.000015 output)</option>
+                            <option value="claude-3-sonnet">Claude-3-Sonnet ($0.000003 input, $0.000015 output)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="requests">Daily Requests:</label>
+                        <input type="number" id="requests" value="500" min="1" max="100000" onchange="runDemo()" oninput="runDemo()">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="input-tokens">Input Tokens per Request:</label>
+                        <input type="number" id="input-tokens" value="800" min="1" max="10000" onchange="runDemo()" oninput="runDemo()">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="output-tokens">Output Tokens per Request:</label>
+                        <input type="number" id="output-tokens" value="400" min="1" max="10000" onchange="runDemo()" oninput="runDemo()">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="budget">Daily Budget ($):</label>
+                        <input type="number" id="budget" value="100" min="1" max="100000" onchange="runDemo()" oninput="runDemo()">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="retry-rate">Retry Rate Multiplier:</label>
+                        <input type="number" id="retry-rate" value="1.0" min="1" max="5" step="0.1" onchange="runDemo()" oninput="runDemo()">
+                    </div>
+                </div>
+                
+                <!-- Demo Output -->
+                <div class="demo-output" id="demo-output">
+                    <div class="header">💾 release-gate Validation Output</div>
+                    <div class="line" style="color: #aaa;">Click "Run Validation" or adjust values to see results...</div>
                 </div>
             </div>
-            
-            <p style="margin-top: 2rem; text-align: center; color: #00ff00;">
-                ✓ Deployment blocked. $600K mistake prevented. Team alerted.
-            </p>
         </div>
     </section>
     
@@ -494,31 +608,31 @@ Remediation Options:<br>
         <div class="solution-content">
             <h2 class="section-title">Quick Start (5 Minutes)</h2>
             
-            <div class="demo-box" style="background: #f5f5f5; color: #333; margin-top: 2rem;">
+            <div style="background: #f5f5f5; border-radius: 8px; padding: 2rem; font-family: 'Courier New', monospace; font-size: 0.9rem; margin-top: 2rem; line-height: 1.8;">
                 <div style="color: #000; font-weight: bold;">Step 1: Install</div>
-                <div style="color: #00aa00;">$ pip install release-gate</div>
-                <br>
+                <div style="color: #00aa00; margin-bottom: 1.5rem;">$ pip install release-gate</div>
+                
                 <div style="color: #000; font-weight: bold;">Step 2: Create governance.yaml</div>
-                <div style="color: #666;">
-project:<br>
-&nbsp;&nbsp;name: my-agent<br>
-<br>
-agent:<br>
-&nbsp;&nbsp;model: gpt-4-turbo<br>
-&nbsp;&nbsp;daily_requests: 500<br>
-&nbsp;&nbsp;avg_input_tokens: 800<br>
-&nbsp;&nbsp;avg_output_tokens: 400<br>
-<br>
-checks:<br>
-&nbsp;&nbsp;action_budget:<br>
+                <div style="color: #666; margin-bottom: 1.5rem;">
+project:<br/>
+&nbsp;&nbsp;name: my-agent<br/>
+<br/>
+agent:<br/>
+&nbsp;&nbsp;model: gpt-4-turbo<br/>
+&nbsp;&nbsp;daily_requests: 500<br/>
+&nbsp;&nbsp;avg_input_tokens: 800<br/>
+&nbsp;&nbsp;avg_output_tokens: 400<br/>
+<br/>
+checks:<br/>
+&nbsp;&nbsp;action_budget:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;max_daily_cost: 100
                 </div>
-                <br>
+                
                 <div style="color: #000; font-weight: bold;">Step 3: Validate</div>
-                <div style="color: #00aa00;">$ release-gate check --config governance.yaml</div>
-                <br>
-                <div style="color: #000; font-weight: bold;">Step 4: Deploy with Confidence</div>
-                <div style="color: #666;">✅ All 4 checks passed. Costs controlled. Governance enforced.</div>
+                <div style="color: #00aa00; margin-bottom: 1.5rem;">$ release-gate check --config governance.yaml</div>
+                
+                <div style="color: #000; font-weight: bold;">Step 4: See Results</div>
+                <div style="color: #00aa00;">✅ All 4 checks passed. Deploy with confidence.</div>
             </div>
         </div>
     </section>
@@ -573,5 +687,106 @@ checks:<br>
         </p>
         <p style="margin-top: 1rem; color: #999; font-size: 0.9rem;">Built with ❤️ by Vamsi</p>
     </footer>
+    
+    <script>
+        // Pricing data for models
+        const modelPricing = {
+            'gpt-4-turbo': { input: 0.00001, output: 0.00003 },
+            'gpt-4': { input: 0.00003, output: 0.0001 },
+            'gpt-4o': { input: 0.000005, output: 0.000015 },
+            'claude-3-sonnet': { input: 0.000003, output: 0.000015 }
+        };
+        
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function scrollToDemo() {
+            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function runDemo() {
+            const model = document.getElementById('model').value;
+            const requests = parseInt(document.getElementById('requests').value) || 500;
+            const inputTokens = parseInt(document.getElementById('input-tokens').value) || 800;
+            const outputTokens = parseInt(document.getElementById('output-tokens').value) || 400;
+            const budget = parseFloat(document.getElementById('budget').value) || 100;
+            const retryRate = parseFloat(document.getElementById('retry-rate').value) || 1.0;
+            
+            const pricing = modelPricing[model];
+            
+            // Calculate costs
+            const dailyInputCost = (inputTokens / 1000) * pricing.input * requests * retryRate;
+            const dailyOutputCost = (outputTokens / 1000) * pricing.output * requests * retryRate;
+            const dailyTotal = dailyInputCost + dailyOutputCost;
+            const monthlyTotal = dailyTotal * 30;
+            
+            // Determine status
+            let status = 'PASS';
+            let statusColor = 'pass';
+            let icon = '✅';
+            let decision = 'PASS';
+            
+            if (dailyTotal > budget) {
+                status = 'FAIL';
+                statusColor = 'fail';
+                icon = '❌';
+                decision = 'FAIL';
+            } else if (dailyTotal > budget * 0.5) {
+                status = 'WARN';
+                statusColor = 'warn';
+                icon = '⚠️';
+                decision = 'WARN';
+            }
+            
+            const safetyMargin = (budget / dailyTotal).toFixed(1);
+            
+            // Generate output
+            let output = `<div class="header">${icon} release-gate: Governance Validation</div>`;
+            output += `<div class="line info">Validating agent: ${model}</div>`;
+            output += `<div class="line"></div>`;
+            
+            output += `<div class="line"><strong>💰 ACTION_BUDGET: <span class="${statusColor}">${status}</span></strong></div>`;
+            output += `<div class="line">&nbsp;&nbsp;Daily Cost: $${dailyTotal.toFixed(2)}</div>`;
+            output += `<div class="line">&nbsp;&nbsp;Monthly Cost: $${monthlyTotal.toFixed(2)}</div>`;
+            output += `<div class="line">&nbsp;&nbsp;Budget: $${budget.toFixed(2)}</div>`;
+            output += `<div class="line">&nbsp;&nbsp;Safety Margin: ${safetyMargin}x</div>`;
+            output += `<div class="line"></div>`;
+            
+            if (status === 'PASS') {
+                output += `<div class="line ${statusColor}">✓ Cost is under budget</div>`;
+                output += `<div class="line ${statusColor}">✓ Safety margin is comfortable</div>`;
+            } else if (status === 'WARN') {
+                output += `<div class="line ${statusColor}">⚠️ Cost is near budget limit</div>`;
+                output += `<div class="line ${statusColor}">⚠️ Consider optimizing or increasing budget</div>`;
+            } else {
+                output += `<div class="line ${statusColor}">✗ Cost EXCEEDS budget</div>`;
+                output += `<div class="line ${statusColor}">✗ Deployment would be BLOCKED</div>`;
+                output += `<div class="line ${statusColor}">✗ Daily overage: $${(dailyTotal - budget).toFixed(2)}</div>`;
+            }
+            
+            output += `<div class="line"></div>`;
+            output += `<div class="line info">📋 INPUT_CONTRACT: ✓ PASS</div>`;
+            output += `<div class="line info">⏹ FALLBACK_DECLARED: ✓ PASS</div>`;
+            output += `<div class="line info">🔐 IDENTITY_BOUNDARY: ✓ PASS</div>`;
+            output += `<div class="line"></div>`;
+            
+            if (status === 'PASS') {
+                output += `<div class="line ${statusColor}"><strong>✅ FINAL DECISION: PASS</strong></div>`;
+                output += `<div class="line ${statusColor}">Safe to deploy with confidence</div>`;
+            } else if (status === 'WARN') {
+                output += `<div class="line ${statusColor}"><strong>⚠️ FINAL DECISION: WARN</strong></div>`;
+                output += `<div class="line ${statusColor}">Manual review recommended</div>`;
+            } else {
+                output += `<div class="line ${statusColor}"><strong>❌ FINAL DECISION: FAIL</strong></div>`;
+                output += `<div class="line ${statusColor}">Deployment blocked - fix cost issues</div>`;
+            }
+            
+            document.getElementById('demo-output').innerHTML = output;
+        }
+        
+        // Run demo on page load
+        window.addEventListener('load', runDemo);
+    </script>
 </body>
 </html>
