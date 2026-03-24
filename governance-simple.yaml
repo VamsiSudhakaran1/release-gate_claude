@@ -1,0 +1,20 @@
+# governance-simple.yaml
+# Simple governance config - cost control focused
+# Copy this to your project as: governance.yaml
+
+project:
+  name: my-agent
+  version: 1.0.0
+
+agent:
+  model: gpt-4-turbo
+  daily_requests: 100
+  avg_input_tokens: 500
+  avg_output_tokens: 300
+  retry_rate: 1.0
+
+checks:
+  # PRIMARY: Cost control (REQUIRED)
+  action_budget:
+    enabled: true
+    max_daily_cost: 50  # $50/day maximum

@@ -1,0 +1,73 @@
+# governance-complete.yaml
+# Complete governance config with all features
+# Copy this to your project as: governance.yaml
+
+project:
+  name: customer-support-agent
+  version: 1.0.0
+
+agent:
+  model: gpt-4-turbo
+  daily_requests: 500
+  avg_input_tokens: 800
+  avg_output_tokens: 400
+  retry_rate: 1.1
+
+checks:
+  # PRIMARY: Cost control with approval thresholds
+  action_budget:
+    enabled: true
+    max_daily_cost: 100
+    
+    # Approval thresholds
+    auto_approve_threshold: 10      # < $10 = auto-pass
+    manual_approval_threshold: 50   # Between $10-$50 = needs approval
+    
+    # Approval routing (future feature)
+    approval_routes:
+      - type: slack
+        channel: "#ai-platform"
+        mentions: ["@ai-lead"]
+      - type: email
+        to: ["ai-team@company.com"]
+        cc: ["security@company.com"]
+  
+  # SUPPORTING: Input validation
+  input_contract:
+    enabled: true
+    schema:
+      type: object
+      required: [user_query, conversation_id]
+      properties:
+        user_query:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        conversation_id:
+          type: string
+          pattern: "^[a-zA-Z0-9-]+$"
+  
+  # SUPPORTING: Safety measures
+  fallback_declared:
+    enabled: true
+    kill_switch:
+      type: feature_flag
+      name: disable_customer_support_agent
+    fallback:
+      mode: escalate_to_human
+      routing: support_queue
+    ownership:
+      team: customer-support-team
+      slack: "#customer-support"
+      oncall: "oncall-support@company.com"
+    runbook_url: "https://wiki.company.com/runbooks/support-agent"
+  
+  # SUPPORTING: Access control
+  identity_boundary:
+    enabled: true
+    authentication: required
+    rate_limit: 10  # per minute per user
+    data_isolation:
+      - customer_data_only
+      - no_cross_customer_access
+      - encrypt_pii_in_transit
