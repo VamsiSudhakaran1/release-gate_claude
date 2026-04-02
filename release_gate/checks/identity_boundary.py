@@ -27,7 +27,7 @@ class IdentityBoundaryCheck:
         
         # Check rate limiting
         rate_limit_config = identity_config.get('rate_limit', {})
-        rate_limit = rate_limit_config.get('requests_per_minute', 0)
+        rate_limit = rate_limit_config.get('requests_per_minute')
         
         # Check data isolation
         data_isolation = identity_config.get('data_isolation', [])
@@ -39,7 +39,7 @@ class IdentityBoundaryCheck:
         if not auth_required:
             issues.append('authentication_not_required')
         
-        if rate_limit <= 0:
+        if rate_limit is None or rate_limit <= 0:
             issues.append('rate_limit_not_set')
         
         if not has_isolation:

@@ -1,0 +1,65 @@
+project:
+  name: risky-agent
+  description: "Agent configuration with governance violations"
+
+agent:
+  model: gpt-4-turbo
+  daily_requests: 5000
+
+policy:
+  fail_on:
+    - ACTION_BUDGET
+    - BUDGET_SIMULATION
+    - FALLBACK_DECLARED
+    - IDENTITY_BOUNDARY
+  warn_on:
+    - INPUT_CONTRACT
+
+checks:
+  action_budget:
+    enabled: true
+    max_daily_cost: 50
+
+  fallback_declared:
+    enabled: true
+    kill_switch:
+      type: "feature-flag"
+      location: "config/kill-switches"
+    fallback_mode: null
+    team_owner: null
+    runbook_url: null
+
+  identity_boundary:
+    enabled: true
+    authentication:
+      required: false
+    rate_limit:
+      requests_per_minute: null
+    data_isolation: []
+
+  input_contract:
+    enabled: true
+    schema:
+      type: "object"
+      required:
+        - "query"
+      properties:
+        query:
+          type: "string"
+    samples:
+      valid:
+        - query: "What is 2+2?"
+      invalid:
+        - query: ""
+
+  budget_simulation:
+    enabled: true
+    simulation:
+      requests_per_day: 5000
+      tokens_per_request:
+        input: 2000
+        output: 2000
+      factors:
+        retry_rate: 1.5
+        cache_hit_rate: 0.1
+        spiky_usage_multiplier: 2.0

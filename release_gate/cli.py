@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 """
 release-gate CLI - Governance enforcement for AI agents
+Version: 0.4.0 with Budget Simulation Engine
+Enhanced with detailed impact output
 """
 import sys
 import yaml
@@ -15,11 +17,18 @@ from release_gate.checks.input_contract import InputContractCheck
 from release_gate.checks.fallback_declared import FallbackDeclaredCheck
 from release_gate.checks.identity_boundary import IdentityBoundaryCheck
 
+# Import Budget Simulation Engine
+try:
+    from release_gate.pricing.budget_simulator import BudgetSimulationCheck
+    BUDGET_SIMULATOR_AVAILABLE = True
+except ImportError:
+    BUDGET_SIMULATOR_AVAILABLE = False
+
 
 def load_config(config_path):
     """Load and parse governance config from YAML"""
     try:
-        with open(config_path, 'r') as f:
+        with open(config_path, 'r', encoding='utf-8') as f:
             config = yaml.safe_load(f)
         return config
     except FileNotFoundError:
@@ -31,7 +40,7 @@ def load_config(config_path):
 
 
 def run_checks(config):
-    """Run all governance checks"""
+    """Run all governance checks including Budget Simulation"""
     results = {}
     checks_config = config.get('checks', {})
 
@@ -75,6 +84,17 @@ def run_checks(config):
             results['IDENTITY_BOUNDARY'] = check.evaluate(config)
         except Exception as e:
             results['IDENTITY_BOUNDARY'] = {
+                'status': 'FAIL',
+                'evidence': {'error': str(e)}
+            }
+
+    # BUDGET_SIMULATION Check (v0.4.0+)
+    if BUDGET_SIMULATOR_AVAILABLE and checks_config.get('budget_simulation', {}).get('enabled', True):
+        try:
+            check = BudgetSimulationCheck()
+            results['BUDGET_SIMULATION'] = check.evaluate(config)
+        except Exception as e:
+            results['BUDGET_SIMULATION'] = {
                 'status': 'FAIL',
                 'evidence': {'error': str(e)}
             }
@@ -138,39 +158,48 @@ def get_exit_code(decision):
     return 1
 
 
-def print_results(results, decision, policy=None):
-    """Pretty-print results in table format"""
+def get_impact_level(check_name, status, policy=None):
+    """Determine impact level based on check status and policy"""
     if policy is None:
         policy = {}
     
-    fail_on = set(policy.get('fail_on', []))
-    warn_on = set(policy.get('warn_on', []))
+    if status == 'PASS':
+        return '—'
     
-    print("\n" + "="*70)
+    fail_on = policy.get('fail_on', [])
+    warn_on = policy.get('warn_on', [])
+    
+    if status == 'FAIL':
+        if check_name in fail_on:
+            return 'CRITICAL'
+        else:
+            return 'HIGH'
+    elif status == 'WARN':
+        if check_name in warn_on:
+            return 'HIGH'
+        else:
+            return 'MEDIUM'
+    
+    return 'UNKNOWN'
+
+
+def print_results(results, decision, policy=None):
+    """Pretty-print results in table format with detailed impact analysis"""
+    if policy is None:
+        policy = {}
+    
+    print("\n" + "="*80)
     print("🚪 release-gate: Governance Validation")
-    print("="*70 + "\n")
+    print("="*80 + "\n")
     
     # Header
     print(f"{'CHECK':<25} {'STATUS':<10} {'IMPACT':<15}")
-    print("-"*70)
+    print("-"*80)
     
     # Results table
     for check_name, result in sorted(results.items()):
         status = result.get('status', 'UNKNOWN')
-        
-        # Determine impact
-        if status == 'FAIL':
-            if check_name in fail_on:
-                impact = "CRITICAL"
-            else:
-                impact = "HIGH"
-        elif status == 'WARN':
-            if check_name in warn_on:
-                impact = "HIGH"
-            else:
-                impact = "MEDIUM"
-        else:
-            impact = "—"
+        impact = get_impact_level(check_name, status, policy)
         
         # Status symbol
         symbol = '✓' if status == 'PASS' else ('⚠' if status == 'WARN' else '✗')
@@ -178,26 +207,91 @@ def print_results(results, decision, policy=None):
         
         print(f"{check_name:<25} {status_str:<10} {impact:<15}")
     
-    print("-"*70)
+    print("-"*80)
     
     # Final decision
     decision_symbol = '✅' if decision == 'PASS' else ('⚠️' if decision == 'WARN' else '❌')
     print(f"\n{decision_symbol} FINAL DECISION: {decision}")
     
-    # Show evidence for failures
+    # Show budget simulation details if available
+    if 'BUDGET_SIMULATION' in results:
+        budget_result = results['BUDGET_SIMULATION']
+        evidence = budget_result.get('evidence', {})
+        
+        if evidence and evidence.get('daily_cost') is not None:
+            print("\n💰 BUDGET SIMULATION DETAILS:")
+            print(f"   Model: {evidence.get('model')}")
+            print(f"   Daily Cost: ${evidence.get('daily_cost'):.2f}")
+            print(f"   Monthly Cost: ${evidence.get('monthly_cost'):.2f}")
+            print(f"   Annual Cost: ${evidence.get('annual_cost'):.2f}")
+            print(f"   Budget: ${evidence.get('budget_daily'):.2f}/day")
+            
+            safety_margin = evidence.get('safety_margin')
+            if safety_margin and safety_margin > 0:
+                print(f"   Safety Margin: {safety_margin:.2f}x")
+            else:
+                overage = evidence.get('budget_daily', 0) - evidence.get('daily_cost', 0)
+                if overage < 0:
+                    print(f"   ⚠️ OVERAGE: ${abs(overage):.2f}/day over budget")
+            
+            usage = evidence.get('usage_percent')
+            if usage is not None:
+                print(f"   Usage: {usage:.1f}% of budget")
+            
+            # Show confidence
+            confidence = evidence.get('confidence', {})
+            if confidence:
+                print(f"\n   Confidence: {confidence.get('level', 'unknown')}")
+                for rec in confidence.get('recommendations', [])[:2]:
+                    print(f"   → {rec}")
+    
+    # Show failures with detailed impact
     has_failures = any(r.get('status') == 'FAIL' for r in results.values())
     if has_failures:
-        print("\nIssues to fix:")
+        print("\n" + "="*80)
+        print("🚨 CRITICAL ISSUES - DEPLOYMENT BLOCKED")
+        print("="*80)
+        
         for check_name, result in sorted(results.items()):
             if result.get('status') == 'FAIL':
+                impact = get_impact_level(check_name, 'FAIL', policy)
+                print(f"\n❌ {check_name} [{impact}]")
+                
                 evidence = result.get('evidence', {})
-                if isinstance(evidence, dict) and 'error' in evidence:
-                    print(f"  • {check_name}: {evidence['error']}")
-                elif isinstance(evidence, dict):
+                if isinstance(evidence, dict):
+                    # Show error if present
+                    if 'error' in evidence:
+                        print(f"   Error: {evidence['error']}")
+                    
+                    # Show key evidence
                     for key, value in evidence.items():
-                        print(f"  • {check_name}: {key} = {value}")
+                        if key not in ['error', 'message', 'skipped']:
+                            if isinstance(value, (int, float)):
+                                if 'cost' in key.lower():
+                                    print(f"   {key}: ${value:.2f}")
+                                else:
+                                    print(f"   {key}: {value}")
+                            elif isinstance(value, str) and len(value) < 100:
+                                print(f"   {key}: {value}")
     
-    print("\n" + "="*70 + "\n")
+    # Show warnings
+    has_warnings = any(r.get('status') == 'WARN' for r in results.values())
+    if has_warnings and not has_failures:
+        print("\n" + "="*80)
+        print("⚠️ WARNINGS - REVIEW REQUIRED")
+        print("="*80)
+        
+        for check_name, result in sorted(results.items()):
+            if result.get('status') == 'WARN':
+                print(f"\n⚠️ {check_name}")
+                
+                evidence = result.get('evidence', {})
+                if isinstance(evidence, dict):
+                    for key, value in list(evidence.items())[:3]:
+                        if key not in ['message', 'skipped']:
+                            print(f"   {key}: {value}")
+    
+    print("\n" + "="*80 + "\n")
 
 
 def save_evidence(results, decision, output_path=None):
@@ -209,7 +303,7 @@ def save_evidence(results, decision, output_path=None):
         'decision': decision,
         'checks': results,
         'timestamp': None,
-        'policy_version': 'v0.3.0'
+        'policy_version': 'v0.4.0'
     }
     
     try:
@@ -259,7 +353,7 @@ def main():
     # Determine decision based on results and policy
     decision = determine_decision(results, policy)
     
-    # Print results
+    # Print results with enhanced impact analysis
     print_results(results, decision, policy)
     
     # Save evidence if requested
