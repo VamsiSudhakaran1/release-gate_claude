@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 """
 release-gate CLI - Governance enforcement for AI agents
-Version: 0.4.0 with Budget Simulation Engine
-Enhanced with detailed impact output
+Version: 0.4.1 with Init Command
 """
 import sys
 import yaml
@@ -23,6 +22,13 @@ try:
     BUDGET_SIMULATOR_AVAILABLE = True
 except ImportError:
     BUDGET_SIMULATOR_AVAILABLE = False
+
+# Import init wizard
+try:
+    from release_gate.init import InitWizard
+    INIT_AVAILABLE = True
+except ImportError:
+    INIT_AVAILABLE = False
 
 
 def load_config(config_path):
@@ -103,18 +109,7 @@ def run_checks(config):
 
 
 def determine_decision(results, policy=None):
-    """
-    Determine final decision based on check results and policy.
-    
-    Policy defines what's critical (FAIL) vs flexible (WARN).
-    
-    Args:
-        results: Dict of check results {check_name: {status, evidence}}
-        policy: Dict with 'fail_on' and 'warn_on' lists
-    
-    Returns:
-        'PASS', 'WARN', or 'FAIL'
-    """
+    """Determine final decision based on check results and policy"""
     if policy is None:
         policy = {}
     
@@ -303,7 +298,7 @@ def save_evidence(results, decision, output_path=None):
         'decision': decision,
         'checks': results,
         'timestamp': None,
-        'policy_version': 'v0.4.0'
+        'policy_version': 'v0.4.1'
     }
     
     try:
@@ -314,55 +309,90 @@ def save_evidence(results, decision, output_path=None):
         print(f"Warning: Could not save evidence: {e}")
 
 
+def print_help():
+    """Print help message"""
+    print("\n" + "="*80)
+    print("🚪 release-gate v0.4.1")
+    print("="*80)
+    print("\nUsage:")
+    print("  release-gate init              # Initialize new project (interactive)")
+    print("  release-gate run <config.yaml> # Run governance checks")
+    print("\nExamples:")
+    print("  release-gate init")
+    print("  release-gate run governance.yaml")
+    print("  release-gate run governance.yaml --output-evidence evidence.json")
+    print("\nMore info: https://github.com/VamsiSudhakaran1/release-gate")
+    print("="*80 + "\n")
+
+
 def main():
     """Main CLI entry point"""
     # Parse arguments
     if len(sys.argv) < 2:
-        print("Usage: release-gate run <config.yaml> [--output-evidence <file>]")
+        print_help()
         sys.exit(1)
     
     command = sys.argv[1]
     
-    if command != 'run':
+    # Handle init command
+    if command == 'init':
+        if not INIT_AVAILABLE:
+            print("Error: Init command not available. Please ensure release_gate.init module is installed.")
+            sys.exit(1)
+        
+        try:
+            wizard = InitWizard()
+            wizard.run()
+        except KeyboardInterrupt:
+            print("\n\n❌ Setup cancelled.")
+            sys.exit(1)
+        except Exception as e:
+            print(f"\n\n❌ Error: {e}")
+            sys.exit(1)
+    
+    # Handle run command
+    elif command == 'run':
+        if len(sys.argv) < 3:
+            print("Usage: release-gate run <config.yaml>")
+            sys.exit(1)
+        
+        config_path = sys.argv[2]
+        
+        # Check for optional flags
+        evidence_path = None
+        if '--output-evidence' in sys.argv:
+            idx = sys.argv.index('--output-evidence')
+            if idx + 1 < len(sys.argv):
+                evidence_path = sys.argv[idx + 1]
+        
+        # Load config
+        config = load_config(config_path)
+        
+        # Extract policy (if present)
+        policy = config.get('policy', {})
+        
+        # Run checks
+        results = run_checks(config)
+        
+        # Determine decision based on results and policy
+        decision = determine_decision(results, policy)
+        
+        # Print results with enhanced impact analysis
+        print_results(results, decision, policy)
+        
+        # Save evidence if requested
+        if evidence_path:
+            save_evidence(results, decision, evidence_path)
+        
+        # Exit with appropriate code
+        exit_code = get_exit_code(decision)
+        sys.exit(exit_code)
+    
+    # Unknown command
+    else:
         print(f"Unknown command: {command}")
-        print("Usage: release-gate run <config.yaml>")
+        print_help()
         sys.exit(1)
-    
-    if len(sys.argv) < 3:
-        print("Usage: release-gate run <config.yaml>")
-        sys.exit(1)
-    
-    config_path = sys.argv[2]
-    
-    # Check for optional flags
-    evidence_path = None
-    if '--output-evidence' in sys.argv:
-        idx = sys.argv.index('--output-evidence')
-        if idx + 1 < len(sys.argv):
-            evidence_path = sys.argv[idx + 1]
-    
-    # Load config
-    config = load_config(config_path)
-    
-    # Extract policy (if present)
-    policy = config.get('policy', {})
-    
-    # Run checks
-    results = run_checks(config)
-    
-    # Determine decision based on results and policy
-    decision = determine_decision(results, policy)
-    
-    # Print results with enhanced impact analysis
-    print_results(results, decision, policy)
-    
-    # Save evidence if requested
-    if evidence_path:
-        save_evidence(results, decision, evidence_path)
-    
-    # Exit with appropriate code
-    exit_code = get_exit_code(decision)
-    sys.exit(exit_code)
 
 
 if __name__ == '__main__':
